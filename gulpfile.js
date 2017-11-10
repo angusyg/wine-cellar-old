@@ -1,27 +1,45 @@
-var gulp = require('gulp');
-var gutil = require('gulp-util');
+var gulp = require('gulp'),
+    gutil = require('gulp-util');
+
 // Include all dev dependencies of package.json
 var plugins = require('gulp-load-plugins')();
 
 // folder configuration
 // !! angular module first for concatenation
 var libJs = [
-    '/node_modules/jquery/dist/jquery.min.js',
-    '/node_modules/angular/angular.min.js',
-    '/node_modules/angular-aria/angular-aria.min.js',
-    '/node_modules/angular-material/angular-material.min.js',
-    '/node_modules/angular-animate/angular-animate.min.js',
-    '/node_modules/angular-messages/angular-messages.min.js',
-    '/node_modules/@uirouter/angularjs/release/angular-ui-router.min.js',
-    '/node_modules/angular-storage/dist/angular-storage.min.js'
-];
-var libCss = ['/node_modules/angular-material/angular-material.min.css'];
-var sourceJs = ['./client/app/app.module.js', './client/app/**/*.js'];
-var sourcePug = './views/**/*.pug';
-var sourceSass = './client/stylesheets/*.sass';
-var destination = './public/js';
-var destinationCss = './public/stylesheets';
-var finalJs = 'client.js';
+        './node_modules/jquery/dist/jquery.min.js',
+        './node_modules/angular/angular.min.js',
+        './node_modules/angular-aria/angular-aria.min.js',
+        './node_modules/angular-material/angular-material.min.js',
+        './node_modules/angular-animate/angular-animate.min.js',
+        './node_modules/angular-messages/angular-messages.min.js',
+        './node_modules/@uirouter/angularjs/release/angular-ui-router.min.js',
+        './node_modules/angular-storage/dist/angular-storage.min.js'
+    ],
+    libCss = ['./node_modules/angular-material/angular-material.min.css'],
+    sourceJs = ['./client/app/app.module.js', './client/app/**/*.js'],
+    sourcePug = './views/**/*.pug',
+    sourceSass = './client/stylesheets/*.sass',
+    destination = './public/js',
+    destinationCss = './public/stylesheets',
+    finalJs = 'client.js',
+    installFiles = [
+        './client/**',
+        './server/**',
+        './views/**',
+        './app.js',
+        './config.js'
+    ];
+
+// to get string to replace for installation
+var installCfg = require('./install.json'),
+    tabReplace = [];
+Object.keys(installCfg).map(function(key) {
+    var rp = [];
+    rp.push('#' + key + '#');
+    rp.push(installCfg[key]);
+    tabReplace.push(rp);
+});
 
 // concatenation of all client js
 gulp.task('concat', function() {
@@ -58,16 +76,12 @@ gulp.task('copy-css', function() {
         .pipe(gulp.dest(destinationCss));
 });
 
+// replace strings
 gulp.task('replace', function() {
-    return gulp.src('./**/*.*', {
+    return gulp.src(installFiles, {
             base: './'
         })
-        .pipe(function() {
-            var installCfg = require('./install.json');
-            Object.entries(installCfg).forEach(function(entry) {
-                plugins.replace(entry.key, entry.value);
-            });
-        })
+        .pipe(plugins.batchReplace(tabReplace))
         .pipe(gulp.dest('./'));
 });
 
