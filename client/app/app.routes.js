@@ -14,6 +14,7 @@
 
         var indexState = {
             name: 'app.public',
+            url: '/public',
             views: {
                 'content@': {
                     templateUrl: '/client/public-index',
