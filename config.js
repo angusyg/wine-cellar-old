@@ -15,7 +15,7 @@ var mongoose = require('mongoose'),
                 host: '#DEV_SERVER_HOST#',
                 port: #DEV_SERVER_PORT#
             },
-            logging: commons.log
+            log: commons.log
         },
         production: {
             mongodb: {
@@ -27,7 +27,7 @@ var mongoose = require('mongoose'),
                 host: '#PROD_SERVER_HOST#',
                 port: #PROD_SERVER_PORT#
             },
-            logging: commons.log
+            log: commons.log
         }
     };
 
