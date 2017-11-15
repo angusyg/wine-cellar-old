@@ -7,7 +7,7 @@
     Config.$inject = ['$urlRouterProvider', '$httpProvider', '$mdThemingProvider', '$mdAriaProvider'];
 
     function Config($urlRouterProvider, $httpProvider, $mdThemingProvider, $mdAriaProvider) {
-        $urlRouterProvider.otherwise('/#ANGULAR_BASE_ROUTE#/public');
+        $urlRouterProvider.otherwise('/public');
         $httpProvider.interceptors.push('HttpErrorInterceptor');
         $httpProvider.interceptors.push('AuthenticationInterceptor');
         $mdAriaProvider.disableWarnings();

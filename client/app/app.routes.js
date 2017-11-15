@@ -9,12 +9,12 @@
     function routing($stateProvider) {
         var templateState = {
             name: 'app',
-            url: '/#ANGULAR_BASE_ROUTE#'
+            url: '/'
         };
 
         var indexState = {
             name: 'app.public',
-            url: '/public',
+            url: 'public',
             views: {
                 'content@': {
                     templateUrl: '/client/public-index',
@@ -26,7 +26,7 @@
 
         var authState = {
             name: 'app.login',
-            url: '/login',
+            url: 'login',
             views: {
                 'content@': {
                     templateUrl: '/client/login',
@@ -38,7 +38,7 @@
 
         var homeState = {
             name: 'app.secure',
-            url: '/app',
+            url: 'app',
             views: {
                 'content@': {
                     templateUrl: '/client/secure/home',
