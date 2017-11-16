@@ -1,7 +1,7 @@
 (function(angular) {
     'use strict';
 
-    angular.module('#ANGULAR_APP_MODULE#')
+    angular.module('wine-cellar')
         .constant('CONFIG', {
             SERVER: {
                 URL: 'http://localhost:',

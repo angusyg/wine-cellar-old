@@ -1,7 +1,7 @@
 (function(angular) {
     'use strict';
 
-    angular.module('#ANGULAR_APP_MODULE#')
+    angular.module('wine-cellar')
         .config(LogDecorator)
         .config(ExceptionHandlerDecorator);
 

@@ -1,5 +1,5 @@
 var app = require('../app'),
-    debug = require('debug')('#APP_NAME#:server'),
+    debug = require('debug')('WineCellar:server'),
     http = require('http'),
     logger = require('./helpers/logger').server,
     config = app.get('config');

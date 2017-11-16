@@ -1,17 +1,17 @@
 {
-    "APP_NAME": "DemoApp",
+    "APP_NAME": "WineCellar",
     "APP_VERSION": "1.0.0",
-    "INDEX_TITLE": "Demo App - Demo standard app",
-    "DEV_DB_NAME": "demo-app",
+    "INDEX_TITLE": "WineCellar - Application de gestion de cave à vin",
+    "DEV_DB_NAME": "wine-cellar",
     "DEV_DB_HOST": "localhost",
     "DEV_DB_PORT": "27017",
     "DEV_SERVER_HOST": "localhost",
     "DEV_SERVER_PORT": "3000",
-    "PROD_DB_NAME": "demo-app",
+    "PROD_DB_NAME": "wine-cellar",
     "PROD_DB_HOST": "localhost",
     "PROD_DB_PORT": "27017",
     "PROD_SERVER_HOST": "localhost",
     "PROD_SERVER_PORT": "3000",
-    "ANGULAR_BASE_ROUTE": "demo",
-    "ANGULAR_APP_MODULE": "demo-app"
+    "ANGULAR_BASE_ROUTE": "cellar",
+    "ANGULAR_APP_MODULE": "wine-cellar"
 }

@@ -7,25 +7,25 @@ var mongoose = require('mongoose'),
     cfg = {
         development: {
             mongodb: {
-                host: '#DEV_DB_HOST#',
-                port: #DEV_DB_PORT#,
-                db: '#DEV_DB_NAME#'
+                host: 'localhost',
+                port: 27017,
+                db: 'wine-cellar'
             },
             server: {
-                host: '#DEV_SERVER_HOST#',
-                port: #DEV_SERVER_PORT#
+                host: 'localhost',
+                port: 3000
             },
             log: commons.log
         },
         production: {
             mongodb: {
-                host: '#PROD_DB_HOST#',
-                port: #PROD_DB_PORT#,
-                db: '#PROD_DB_NAME#'
+                host: 'localhost',
+                port: 27017,
+                db: 'wine-cellar'
             },
             server: {
-                host: '#PROD_SERVER_HOST#',
-                port: #PROD_SERVER_PORT#
+                host: 'localhost',
+                port: 3000
             },
             log: commons.log
         }

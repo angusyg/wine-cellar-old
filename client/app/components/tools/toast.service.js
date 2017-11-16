@@ -1,7 +1,7 @@
 (function(angular) {
     'use strict';
 
-    angular.module('#ANGULAR_APP_MODULE#')
+    angular.module('wine-cellar')
         .factory('ToastService', ToastService);
 
     ToastService.$inject = ['$mdToast'];

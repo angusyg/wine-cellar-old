@@ -1,7 +1,7 @@
 (function(angular) {
     'use strict';
 
-    angular.module('#ANGULAR_APP_MODULE#', ['ui.router', 'ngAnimate', 'ngMaterial', 'angular-storage', 'ngMessages'])
+    angular.module('wine-cellar', ['ui.router', 'ngAnimate', 'ngMaterial', 'angular-storage', 'ngMessages'])
         .run(['$transitions', '$log', 'AuthenticationService', function($transitions, $log, AuthenticationService) {
             // secure path for private states
             $transitions.onBefore({
