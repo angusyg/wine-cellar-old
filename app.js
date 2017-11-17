@@ -11,6 +11,7 @@ var express = require('express'),
     appMiddleware = require('./server/middlewares'),
     // modules models
     usersModel = require('./server/models/users'),
+    typesModel = require('./server/models/types'),
     // modules routes
     indexRoute = require('./server/routes/index'),
     clientRoute = require('./server/routes/client'),

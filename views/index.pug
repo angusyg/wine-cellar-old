@@ -7,7 +7,7 @@ html(ng-app='wine-cellar')
         link(rel='stylesheet', href='/stylesheets/angular-material.min.css')
         link(rel='stylesheet', href='/stylesheets/style.css')
     body
-        header
+        header(ui-view='navbar')
         section#content(ui-view='content')
         footer
         script(src='/js/jquery.min.js')

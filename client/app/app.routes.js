@@ -9,7 +9,12 @@
     function routing($stateProvider) {
         var templateState = {
             name: 'app',
-            url: '/'
+            url: '/',
+            views: {
+                'navbar@': {
+                    templateUrl: '/client/navbar'
+                }
+            }
         };
 
         var indexState = {
@@ -38,19 +43,31 @@
 
         var homeState = {
             name: 'app.secure',
-            url: 'app',
+            url: 'app'
+        };
+
+        var parameterState = {
+            name: 'app.secure.parameters',
+            url: '/parameters',
             views: {
                 'content@': {
-                    templateUrl: '/client/secure/home',
-                    controller: 'HomeController',
-                    controllerAs: 'home'
+                    templateUrl: '/client/parameters',
+                    controller: 'ParametersController',
+                    controllerAs: 'parameters'
                 }
+            },
+            resolve: {
+                parameters: ['TypeService', '$q', function(TypeService, $q) {
+                    return $q.all([TypeService.getTypes()]);
+                }]
             }
+
         };
 
         $stateProvider.state(templateState);
         $stateProvider.state(indexState);
         $stateProvider.state(authState);
         $stateProvider.state(homeState);
+        $stateProvider.state(parameterState);
     }
 })(angular);

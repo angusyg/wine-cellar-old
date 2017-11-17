@@ -1,5 +1,5 @@
 html, body
-  background-color: rgb(126, 126, 126)
+  // background-color: rgb(126, 126, 126)
   font-size: 15px
 
 @font-face
@@ -23,3 +23,10 @@ html, body
     direction: ltr
     -webkit-font-feature-settings: 'liga'
     -webkit-font-smoothing: antialiased
+
+section
+    &.ng-enter
+        transition: .5s
+        opacity: 0
+    &.ng-enter-active
+        opacity: 1

@@ -3,6 +3,12 @@
 
     angular.module('wine-cellar', ['ui.router', 'ngAnimate', 'ngMaterial', 'angular-storage', 'ngMessages'])
         .run(['$transitions', '$log', 'AuthenticationService', function($transitions, $log, AuthenticationService) {
+            //TODO Remove after login done
+            AuthenticationService.login({
+                login: 'admin',
+                password: 'pass'
+            });
+            
             // secure path for private states
             $transitions.onBefore({
                 to: 'app.secure.**'
