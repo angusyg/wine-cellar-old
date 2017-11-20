@@ -1,5 +1,5 @@
 html, body
-  // background-color: rgb(126, 126, 126)
+  background-color: rgb(126, 126, 126)
   font-size: 15px
 
 @font-face
@@ -26,7 +26,18 @@ html, body
 
 section
     &.ng-enter
-        transition: .5s
+        transition: .5sgit
         opacity: 0
     &.ng-enter-active
         opacity: 1
+
+.menu-panel
+    .title
+        height: 40px
+        background-color: rgb(126, 126, 126)
+        color: rgb(255, 255, 255)
+    .content
+        padding: 0
+        md-list-item, md-list-item .md-list-item-inner, .md-button
+            min-height: 20px
+            height: 30px
