@@ -6,7 +6,8 @@
             SERVER: {
                 URL: 'http://localhost:',
                 PORT: 3000,
-                API: '/api'
+                API: '/api',
+                DIRECTIVES: '/client/directives/'
             }
         })
         .constant('ROLES', {
