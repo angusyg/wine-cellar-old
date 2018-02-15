@@ -1,14 +1,15 @@
 (function(angular) {
     'use strict';
 
-    angular.module('#ANGULAR_APP_MODULE#')
+    angular.module('wine-cellar')
         .config(LogDecorator)
-        .config(ExceptionHandlerDecorator);
+        .config(ExceptionHandlerDecorator)
+        .config(Config);
 
     LogDecorator.$inject = ['$provide'];
 
     function LogDecorator($provide) {
-        $provide.decorator('$log', ['$delegate', '$window', function($delegate, $window) {
+        $provide.decorator('$log', ['$delegate', '$window', 'API', function($delegate, $window, API) {
             var levels = ['debug', 'info', 'warn', 'error'];
             levels.forEach(function(level) {
                 var original = $delegate[level];
@@ -17,7 +18,7 @@
                     original.apply(null, arguments);
                     $.ajax({
                         type: 'POST',
-                        url: '/logger/' + level,
+                        url: API.logger + '/' + level,
                         contentType: 'application/json',
                         data: angular.toJson({
                             url: $window.location.href,
@@ -38,5 +39,17 @@
                 $log.error(exception, cause);
             };
         }]);
+    }
+
+    Config.$inject = ['$urlRouterProvider', '$httpProvider', '$mdThemingProvider', '$mdAriaProvider'];
+
+    function Config($urlRouterProvider, $httpProvider, $mdThemingProvider, $mdAriaProvider) {
+        $urlRouterProvider.otherwise('/home');
+        $httpProvider.interceptors.push('HttpErrorInterceptor');
+        $mdAriaProvider.disableWarnings();
+        // $mdThemingProvider.theme('customTheme')
+        //     .primaryPalette('grey')
+        //     .accentPalette('orange')
+        //     .warnPalette('red');
     }
 })(angular);

@@ -1,14 +1,8 @@
-var express = require('express'),
-    appMiddleware = require('../middlewares'),
-    users = require('../controllers/users'),
+const express = require('express'),
+    config = require('../../config'),
+    apiController = require('../controllers/api'),
     router = express.Router();
 
-router.use(appMiddleware.generateRequestUUID);
-router.use(users.loginRequired);
-
-router.get('/users', users.getUsers);
-router.post('/users', users.register);
-router.put('/users/:id', users.update);
-router.delete('/users/:id', users.remove);
+router.get(config.api.discover, apiController.discover);
 
 module.exports = router;

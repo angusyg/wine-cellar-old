@@ -1,0 +1,23 @@
+doctype html
+html
+    head
+        meta(name='viewport' content='width=device-width, initial-scale=1')
+        title Wine Cellar - Application de gestion de cave à vin
+        link(rel='stylesheet' href='/stylesheets/angular-material.min.css')
+        link(rel='stylesheet' href='/stylesheets/style.css')
+    body(layout='row' layout-align='center')
+        header
+        md-content.transparent(layout='column' layout-align='' flex='' ui-view='content')
+        footer
+        script(src='/js/lib.min.js')
+        script(src='/js/'+client)
+        script.
+            window.deferredBootstrapper.bootstrap({
+                element: window.document.body,
+                module: 'wine-cellar',
+                resolve: {
+                    API: ['$http', function($http) {
+                        return $http.get('#{apiListUrl}');
+                    }]
+                }
+            });

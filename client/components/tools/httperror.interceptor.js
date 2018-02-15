@@ -1,7 +1,7 @@
 (function(angular) {
     'use strict';
 
-    angular.module('#ANGULAR_APP_MODULE#')
+    angular.module('wine-cellar')
         .factory('HttpErrorInterceptor', HttpErrorInterceptor);
 
     HttpErrorInterceptor.$inject = ['$q', '$log'];

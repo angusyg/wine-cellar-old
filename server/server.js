@@ -1,38 +1,23 @@
-var app = require('../app'),
+const app = require('../app'),
     debug = require('debug')('#APP_NAME#:server'),
     http = require('http'),
     logger = require('./helpers/logger').server,
-    config = app.get('config');
-
-// port from environment
-var port = normalizePort(config.server.port);
-
-// // https secure server
-// var https = require('https');
-// var fs = require('fs');
-// var options = {
-//     key: fs.readFileSync('./key.pem'),
-//     cert: fs.readFileSync('./cert.pem')
-// };
-// var securePort = 443;
-// var secureServer = https.createServer(options, app);
-// secureServer.listen(securePort);
-//
-// // http server redirecting to secure https server
-// var server = http.createServer(function (req, res) {
-//     res.writeHead(301, { "Location": "https://" + req.headers.host + req.url });
-//     res.send('Redirecting to secure server');
-// }).listen(port);
+    config = require('../config'),
+    port = normalizePort(config.api.server.port);
 
 // http server
-var server = http.createServer(app);
+const server = http.createServer(app);
 
 // startup server to listen request, error
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-// check if port or named pipe
+/**
+ * Check if port or named pipe
+ * @param  {[type]} val port value
+ * @return {[type]}     normalized server port
+ */
 function normalizePort(val) {
     var port = parseInt(val, 10);
     // named pipe ?
@@ -42,14 +27,15 @@ function normalizePort(val) {
     return false;
 }
 
-// error event
+/**
+ * Handle error on startup of server
+ * @param  {[type]} error startup errors
+ */
 function onError(error) {
     if (error.syscall !== 'listen') throw error;
-
-    var bind = typeof port === 'string' ?
+    let bind = typeof port === 'string' ?
         'Pipe ' + port :
         'Port ' + port;
-
     // handle specific listen errors with friendly messages
     switch (error.code) {
         case 'EACCES':
@@ -77,4 +63,4 @@ function onListening() {
 process.on('uncaughtException', function(err) {
     logger.error('Server internal error: "' + err.stack + '"');
     process.exit(1);
-})
+});
