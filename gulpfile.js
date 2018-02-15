@@ -54,7 +54,7 @@ gulp.task('copy-css-lib', function() {
 });
 
 // minification of client js
-gulp.task('uglify', ['copy-js-lib'], function() {
+gulp.task('uglify', function() {
     pump([
         gulp.src(sourceJs),
         plugins.concat(finalJs),
@@ -67,7 +67,6 @@ gulp.task('uglify', ['copy-js-lib'], function() {
         plugins.rename({
             suffix: '.min'
         }),
-        gulp.src(destinationJs),
         gulp.dest(destinationJs)
     ]);
 });
@@ -79,4 +78,4 @@ gulp.task('watch', function() {
 });
 
 // default task (production)
-gulp.task('default', ['clean', 'copy-css-lib', 'copy-js-lib', 'uglify']);
+gulp.task('default', ['copy-css-lib', 'copy-js-lib', 'uglify']);
