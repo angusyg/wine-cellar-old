@@ -4,8 +4,8 @@
   "description": "Application de gestion de cave à vin",
   "main": "server/server.js",
   "scripts": {
-    "start": "node server/server.js",
-    "start:prod": "set NODE_ENV=production&& node server/server.js",
+    "start": "node src/server/server.js",
+    "start:prod": "set NODE_ENV=production&& node src/server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -48,12 +48,18 @@
   },
   "devDependencies": {
     "del": "^3.0.0",
+    "eslint": "^4.17.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-angular": "^3.2.0",
+    "eslint-plugin-import": "^2.8.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
+    "gulp-eslint": "^4.0.2",
     "gulp-livereload": "^3.8.1",
     "gulp-load-plugins": "^1.5.0",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^3.0.0",
+    "gulp-uglify-es": "^1.0.0",
     "gulp-util": "^3.0.8",
     "pump": "^3.0.0"
   }
