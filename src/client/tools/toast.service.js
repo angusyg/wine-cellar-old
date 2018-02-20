@@ -1,6 +1,6 @@
-(function (angular) {
+(function(angular) {
   angular.module('wine-cellar')
-    .factory('ToastService', ToastService);
+    .factory('toastService', ToastService);
 
   ToastService.$inject = ['$mdToast'];
 

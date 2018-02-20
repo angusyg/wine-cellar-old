@@ -1,4 +1,4 @@
-(function (angular) {
+(function(angular) {
   angular.module('wine-cellar')
     .config(LogDecorator)
     .config(ExceptionHandlerDecorator)
@@ -7,11 +7,11 @@
   LogDecorator.$inject = ['$provide'];
 
   function LogDecorator($provide) {
-    $provide.decorator('$log', ['$delegate', '$window', 'API', function ($delegate, $window, API) {
+    $provide.decorator('$log', ['$delegate', '$window', 'API', function($delegate, $window, API) {
       const levels = ['debug', 'info', 'warn', 'error'];
       levels.forEach((level) => {
         const original = $delegate[level];
-        $delegate[level] = function () {
+        $delegate[level] = function() {
           const message = Array.prototype.slice.call(arguments);
           original(...arguments);
           $.ajax({
@@ -32,8 +32,8 @@
   ExceptionHandlerDecorator.$inject = ['$provide'];
 
   function ExceptionHandlerDecorator($provide) {
-    $provide.decorator('$exceptionHandler', ['$delegate', '$log', function ($delegate, $log) {
-      return function (exception, cause) {
+    $provide.decorator('$exceptionHandler', ['$delegate', '$log', function($delegate, $log) {
+      return function(exception, cause) {
         $log.error(exception, cause);
       };
     }]);

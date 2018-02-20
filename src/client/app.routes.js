@@ -1,4 +1,4 @@
-(function (angular) {
+(function(angular) {
   angular.module('wine-cellar')
     .config(routing);
 
@@ -9,7 +9,6 @@
       name: 'app',
       url: '/',
     };
-
 
     const homeState = {
       name: 'app.home',

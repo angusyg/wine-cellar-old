@@ -4,6 +4,9 @@
   "description": "Application de gestion de cave à vin",
   "main": "server/server.js",
   "scripts": {
+    "lint": "./node_modules/.bin/eslint .",
+    "lint:server": "./node_modules/.bin/eslint ./src/server",
+    "lint:client": "./node_modules/.bin/eslint ./src/client",
     "start": "node src/server/server.js",
     "start:prod": "set NODE_ENV=production&& node src/server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
