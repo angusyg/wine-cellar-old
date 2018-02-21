@@ -13,7 +13,6 @@ const app = express();
 
 // configuration
 config.connectDb();
-app.set('config', config);
 
 // view configuration
 app.set('views', path.join(__dirname, 'views', 'pug'));

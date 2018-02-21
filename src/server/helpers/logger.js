@@ -1,5 +1,5 @@
 const winston = require('winston');
-const config = require('../../config');
+const config = require('../../../config');
 const WinstonRotator = require('winston-daily-rotate-file');
 
 const logger = {};
