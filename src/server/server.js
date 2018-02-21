@@ -1,4 +1,4 @@
-const app = require('../app');
+const app = require('../../app');
 const debug = require('debug')('#APP_NAME#:server');
 const http = require('http');
 const logger = require('./helpers/logger').server;

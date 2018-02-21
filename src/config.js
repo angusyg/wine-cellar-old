@@ -1,11 +1,13 @@
 const path = require('path');
 const fs = require('fs');
+const camo = require('camo');
 
 const server = {
   protocol: 'http://',
   host: 'localhost',
   port: 8080,
 };
+const dbFolder = path.join(__dirname, '..', 'data');
 
 function logFolder() {
   const folder = path.join(__dirname, '..', 'logs');
@@ -91,5 +93,12 @@ module.exports = {
       },
       exitOnError: false,
     },
+  },
+  connectDb: () => {
+    if (!fs.existsSync(dbFolder)) fs.mkdirSync(dbFolder);
+    camo.connect(`nedb://${dbFolder}`).catch((err) => {
+      console.error(`Server internal error: ${err.message} => exit`);
+      process.exit(0);
+    });
   },
 };
