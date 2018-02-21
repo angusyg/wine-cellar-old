@@ -1,4 +1,5 @@
 node_modules
-public/js
-public/stylesheets
+src/client/public/js
+src/client/public/stylesheets
 logs
+data

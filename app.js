@@ -11,7 +11,7 @@ const config = require('./config');
 
 const app = express();
 
-// configuration
+// configuration: DB connection 
 config.connectDb();
 
 // view configuration
@@ -19,20 +19,20 @@ app.set('views', path.join(__dirname, 'src', 'server', 'views', 'pug'));
 app.set('view engine', 'pug');
 
 // middlewares
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'src', 'client', 'public', 'favicon.ico')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false,
 }));
 app.use(sassMiddleware({
   src: path.join(__dirname, 'src', 'server', 'views', 'stylesheets'),
-  dest: path.join(__dirname, 'public', 'stylesheets'),
+  dest: path.join(__dirname, 'src', 'client', 'public', 'stylesheets'),
   indentedSyntax: true,
   sourceMap: true,
   prefix: '/stylesheets',
 }));
 app.use(appMiddleware.generateRequestUUID);
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'src', 'client', 'public')));
 
 // map modules routes
 app.use('/', indexRoute);

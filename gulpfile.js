@@ -17,12 +17,12 @@ const libJs = [
   'node_modules/angular-deferred-bootstrap/angular-deferred-bootstrap.min.js',
 ];
 const libCss = ['node_modules/angular-material/angular-material.min.css'];
-const sourceJs = ['src/client/app.module.js', 'src/client/**/*.js'];
-const destinationJs = 'public/js';
-const destinationCss = 'public/stylesheets';
+const sourceJs = ['src/client/app/app.module.js', 'src/client/app/**/*.js'];
+const destinationJs = 'src/client/public/js';
+const destinationCss = 'src/client/public/stylesheets';
 const finalJs = 'client.js';
 const finalLibJs = 'lib.min.js';
-const esLintJs = ['src/**/*.js', '!src/client/**'];
+const esLintJs = ['src/**/*.js'];
 
 /**
  * Log to console an Error
@@ -56,9 +56,9 @@ gulp.task('cleanJs', () => {
 // remove css libs
 gulp.task('cleanCss', () => {
   del([
-    `${destinationCss}/*.css`,
-    `${destinationCss}/*.map`,
-  ])
+      `${destinationCss}/*.css`,
+      `${destinationCss}/*.map`,
+    ])
     .catch(logError);
 });
 
