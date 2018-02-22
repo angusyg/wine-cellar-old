@@ -1,5 +1,9 @@
-(function(angular) {
-  angular.module('wine-cellar')
+/**
+ * Frontend client application routing
+ */
+(function() {
+  angular
+    .module('wine-cellar')
     .config(routing);
 
   routing.$inject = ['$stateProvider'];
@@ -10,19 +14,6 @@
       url: '/',
     };
 
-    const homeState = {
-      name: 'app.home',
-      url: 'home',
-      views: {
-        'content@': {
-          templateUrl: '/html/home.html',
-          controller: 'HomeController',
-          controllerAs: 'home',
-        },
-      },
-    };
-
     $stateProvider.state(templateState);
-    $stateProvider.state(homeState);
   }
-}(angular));
+}());

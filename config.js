@@ -25,7 +25,20 @@ module.exports = {
     base: '/api',
     discover: '/discover',
     logger: '/logger',
-    endpoints: {},
+    endpoints: {
+      login: {
+        path: '/login',
+        secure: false
+      },
+      logout: {
+        path: '/logout',
+        secure: true
+      },
+      refreshToken: {
+        path: '/refresh',
+        secure: true
+      }
+    },
   },
   httpStatus: {
     serverError: 500,

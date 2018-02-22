@@ -11,7 +11,7 @@ const config = require('./config');
 
 const app = express();
 
-// configuration: DB connection 
+// configuration: DB connection
 config.connectDb();
 
 // view configuration

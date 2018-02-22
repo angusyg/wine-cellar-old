@@ -1,5 +1,8 @@
-(function(angular) {
-  angular.module('wine-cellar')
+(function() {
+  'use strict';
+
+  angular
+    .module('frontend.core')
     .factory('toastService', ToastService);
 
   ToastService.$inject = ['$mdToast'];
@@ -29,4 +32,4 @@
         .theme(`${level}-toast`));
     }
   }
-}(angular));
+})();

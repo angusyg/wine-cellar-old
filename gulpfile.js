@@ -17,7 +17,7 @@ const libJs = [
   'node_modules/angular-deferred-bootstrap/angular-deferred-bootstrap.min.js',
 ];
 const libCss = ['node_modules/angular-material/angular-material.min.css'];
-const sourceJs = ['src/client/app/app.module.js', 'src/client/app/**/*.js'];
+const sourceJs = ['src/client/app/app.module.js', 'src/client/app/**/*.module.js', 'src/client/app/**/*.js'];
 const destinationJs = 'src/client/public/js';
 const destinationCss = 'src/client/public/stylesheets';
 const finalJs = 'client.js';
