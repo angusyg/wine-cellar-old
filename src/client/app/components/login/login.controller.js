@@ -9,9 +9,9 @@
     .module('frontend.login')
     .controller('LoginController', LoginController);
 
-  LoginController.$inject = ['$state', 'toastService', 'authenticationService', 'tools'];
+  LoginController.$inject = ['$state', 'toastService', 'authenticationService'];
 
-  function LoginController($state, toastService, authenticationService, tools) {
+  function LoginController($state, toastService, authenticationService) {
     const vm = this;
 
     vm.user = {
@@ -21,7 +21,6 @@
     vm.doLogin = doLogin;
     vm.doLogout = doLogout;
 
-
     function doLogin() {
       authenticationService.login(vm.user)
         .then(() => {
@@ -29,12 +28,8 @@
           $state.go('app.secure');
         })
         .catch((err) => {
-          console.log(tools.isFrontEndError(err));
-          if (err.status === 401) {
-            toastService.error('Combinaison login / mot de passe incorrect');
-          } else {
-            toastService.error('Erreur lors de l\'authentification');
-          }
+          if (err.status === 401) toastService.error('Combinaison login / mot de passe incorrect');
+          else toastService.error('Erreur lors de l\'authentification');
         });
     }
 

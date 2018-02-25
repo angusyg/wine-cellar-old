@@ -10,7 +10,7 @@ const server = {
 const dbFolder = path.join(__dirname, '..', 'data');
 
 function logFolder() {
-  const folder = path.join(__dirname, '..', 'logs');
+  const folder = path.join(__dirname, 'logs');
   if (!fs.existsSync(folder)) fs.mkdirSync(folder);
   return folder;
 }
@@ -23,20 +23,28 @@ module.exports = {
   api: {
     server,
     base: '/api',
+    accessTokenHeader: 'Authorization',
+    refreshTokenHeader: 'Refresh',
     discover: '/discover',
     logger: '/logger',
     endpoints: {
       login: {
         path: '/login',
-        secure: false
+        secure: false,
+        data: true,
+        method: 'POST'
       },
       logout: {
         path: '/logout',
-        secure: true
+        secure: true,
+        data: false,
+        method: 'GET'
       },
       refreshToken: {
         path: '/refresh',
-        secure: true
+        secure: true,
+        data: false,
+        method: 'GET'
       }
     },
   },
