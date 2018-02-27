@@ -26,27 +26,35 @@ module.exports = {
     accessTokenHeader: 'Authorization',
     refreshTokenHeader: 'Refresh',
     discover: '/discover',
-    logger: '/logger',
-    endpoints: {
-      login: {
+    endpoints: [{
+        name: 'logger',
+        path: '/logger',
+        secure: false,
+        data: true,
+        method: 'POST'
+      },
+      {
+        name: 'login',
         path: '/login',
         secure: false,
         data: true,
         method: 'POST'
       },
-      logout: {
+      {
+        name: 'logout',
         path: '/logout',
         secure: true,
         data: false,
         method: 'GET'
       },
-      refreshToken: {
+      {
+        name: 'refreshToken',
         path: '/refresh',
         secure: true,
         data: false,
         method: 'GET'
       }
-    },
+    ],
   },
   httpStatus: {
     serverError: 500,

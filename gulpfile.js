@@ -17,7 +17,12 @@ const libJs = [
   'node_modules/angular-deferred-bootstrap/angular-deferred-bootstrap.min.js',
 ];
 const libCss = ['node_modules/angular-material/angular-material.min.css'];
-const sourceJs = ['src/client/app/app.module.js', 'src/client/app/**/*.module.js', 'src/client/app/**/*.js'];
+const sourceJs = [
+  'src/client/app/components/core/**/*.module.js',
+  'src/client/app/app.module.js',
+  'src/client/app/**/*.module.js',
+  'src/client/app/**/*.js'
+];
 const destinationJs = 'src/client/public/js';
 const destinationCss = 'src/client/public/stylesheets';
 const finalJs = 'client.js';
@@ -48,13 +53,13 @@ gulp.task('eslint', () => {
 });
 
 // remove js libs
-gulp.task('cleanJs', () => {
+gulp.task('clean-js', () => {
   del([`${destinationJs}/*.js`])
     .catch(logError);
 });
 
 // remove css libs
-gulp.task('cleanCss', () => {
+gulp.task('clean-css', () => {
   del([
       `${destinationCss}/*.css`,
       `${destinationCss}/*.map`,
@@ -63,10 +68,10 @@ gulp.task('cleanCss', () => {
 });
 
 // remove js and css lib from public
-gulp.task('clean', ['cleanJs', 'cleanCss']);
+gulp.task('clean', ['clean-js', 'clean-css']);
 
 // expose js lib in public
-gulp.task('copy-js-lib', ['cleanJs'], () => {
+gulp.task('copy-js-lib', ['clean-js'], () => {
   pump([
     gulp.src(libJs),
     plugins.concat(finalLibJs),
@@ -75,7 +80,7 @@ gulp.task('copy-js-lib', ['cleanJs'], () => {
 });
 
 // expose css lib in public
-gulp.task('copy-css-lib', ['cleanCss'], () => {
+gulp.task('copy-css-lib', ['clean-css'], () => {
   pump([
     gulp.src(libCss),
     gulp.dest(destinationCss),

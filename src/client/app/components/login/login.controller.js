@@ -9,9 +9,9 @@
     .module('frontend.login')
     .controller('LoginController', LoginController);
 
-  LoginController.$inject = ['$state', 'toastService', 'authenticationService'];
+  LoginController.$inject = ['$state', 'toastService', 'authService'];
 
-  function LoginController($state, toastService, authenticationService) {
+  function LoginController($state, toastService, authService) {
     const vm = this;
 
     vm.user = {
@@ -22,7 +22,7 @@
     vm.doLogout = doLogout;
 
     function doLogin() {
-      authenticationService.login(vm.user)
+      authService.login(vm.user)
         .then(() => {
           toastService.success('Bienvenue ' + vm.user.login + ' !');
           $state.go('app.secure');
@@ -34,7 +34,7 @@
     }
 
     function doLogout() {
-      authenticationService.logout()
+      authService.logout()
         .then(() => {
           toastService.success('Au revoir !');
           $state.go('app.login');

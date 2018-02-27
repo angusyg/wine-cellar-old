@@ -6,7 +6,5 @@
   'use strict';
 
   angular
-    .module('frontend.core', [
-      'ngAnimate', 'ngMaterial', 'ngMessages', 'angular-storage'
-    ]);
+    .module('frontend.core', ['frontend.core.api', 'frontend.core.auth', 'frontend.core.constants', 'frontend.core.logging', 'frontend.core.routing', 'frontend.core.services']);
 })();

@@ -1,10 +1,10 @@
 /**
  * HttpErrorInterceptor:
- * Http interceptor to send to server logger errors received from api server calls
+ * Http interceptor to send to server logger, errors received from api server calls
  */
 (function() {
   angular
-    .module('frontend.core')
+    .module('frontend.core.logging')
     .factory('httpErrorInterceptor', HttpErrorInterceptor);
 
   HttpErrorInterceptor.$inject = ['$q', '$log'];

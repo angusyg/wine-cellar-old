@@ -2,12 +2,12 @@
   'use strict';
 
   angular
-    .module('frontend.core')
-    .factory('tools', ToolsService);
+    .module('frontend.core.services')
+    .factory('base64', Base64Service);
 
-  ToolsService.$inject = [];
+  Base64Service.$inject = [];
 
-  function ToolsService() {
+  function Base64Service() {
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
     let lookup = null;
     let ie = /MSIE /.test(navigator.userAgent);
@@ -16,20 +16,46 @@
     return {
       encodeBase64: encodeBase64,
       decodeBase64: decodeBase64,
-      getJwtTokenPayload: getJwtTokenPayload,
-      isBlank,
-      isNotBlank,
       urlEncodeBase64: urlEncodeBase64,
-      urlDecodeBase64: urlDecodeBase64
+      urlDecodeBase64: urlDecodeBase64,
     };
 
-    function encodeBase64(s) {
-      let buffer = toUtf8(s),
-        position = -1,
-        result,
-        len = buffer.length,
-        nan0, nan1, nan2, enc = [, , , ];
+    function decodeBase64(s) {
+      s = s.replace(/\s/g, '');
+      if (s.length % 4)
+        throw new Error('InvalidLengthError: decode failed: The string to be decoded is not the correct length for a base64 encoded string.');
+      if (/[^A-Za-z0-9+\/=\s]/g.test(s))
+        throw new Error('InvalidCharacterError: decode failed: The string contains characters invalid in a base64 encoded string.');
 
+      let buffer = fromUtf8(s);
+      let position = 0;
+      let result;
+      let len = buffer.length;
+      if (ieo) {
+        result = [];
+        while (position < len) {
+          if (buffer[position] < 128) result.push(String.fromCharCode(buffer[position++]));
+          else if (buffer[position] > 191 && buffer[position] < 224) result.push(String.fromCharCode(((buffer[position++] & 31) << 6) | (buffer[position++] & 63)));
+          else result.push(String.fromCharCode(((buffer[position++] & 15) << 12) | ((buffer[position++] & 63) << 6) | (buffer[position++] & 63)));
+        }
+        return result.join('');
+      } else {
+        result = '';
+        while (position < len) {
+          if (buffer[position] < 128) result += String.fromCharCode(buffer[position++]);
+          else if (buffer[position] > 191 && buffer[position] < 224) result += String.fromCharCode(((buffer[position++] & 31) << 6) | (buffer[position++] & 63));
+          else result += String.fromCharCode(((buffer[position++] & 15) << 12) | ((buffer[position++] & 63) << 6) | (buffer[position++] & 63));
+        }
+        return result;
+      }
+    }
+
+    function encodeBase64(s) {
+      let buffer = toUtf8(s);
+      let position = -1;
+      let result;
+      let len = buffer.length;
+      let nan0, nan1, nan2, enc = [, , , ];
       if (ie) {
         result = [];
         while (++position < len) {
@@ -67,41 +93,10 @@
       }
     }
 
-    function decodeBase64(s) {
-      s = s.replace(/\s/g, '');
-      if (s.length % 4)
-        throw new Error('InvalidLengthError: decode failed: The string to be decoded is not the correct length for a base64 encoded string.');
-      if (/[^A-Za-z0-9+\/=\s]/g.test(s))
-        throw new Error('InvalidCharacterError: decode failed: The string contains characters invalid in a base64 encoded string.');
-
-      let buffer = fromUtf8(s),
-        position = 0,
-        result,
-        len = buffer.length;
-
-      if (ieo) {
-        result = [];
-        while (position < len) {
-          if (buffer[position] < 128) result.push(String.fromCharCode(buffer[position++]));
-          else if (buffer[position] > 191 && buffer[position] < 224) result.push(String.fromCharCode(((buffer[position++] & 31) << 6) | (buffer[position++] & 63)));
-          else result.push(String.fromCharCode(((buffer[position++] & 15) << 12) | ((buffer[position++] & 63) << 6) | (buffer[position++] & 63)));
-        }
-        return result.join('');
-      } else {
-        result = '';
-        while (position < len) {
-          if (buffer[position] < 128) result += String.fromCharCode(buffer[position++]);
-          else if (buffer[position] > 191 && buffer[position] < 224) result += String.fromCharCode(((buffer[position++] & 31) << 6) | (buffer[position++] & 63));
-          else result += String.fromCharCode(((buffer[position++] & 15) << 12) | ((buffer[position++] & 63) << 6) | (buffer[position++] & 63));
-        }
-        return result;
-      }
-    }
-
     function fromUtf8(s) {
-      let position = -1,
-        len, buffer = [],
-        enc = [, , , ];
+      let position = -1;
+      let len, buffer = [];
+      let enc = [, , , ];
       if (!lookup) {
         len = alphabet.length;
         lookup = {};
@@ -123,29 +118,10 @@
       return buffer;
     }
 
-    function getJwtTokenPayload(token) {
-      let encoded = token.split('.')[1];
-      return JSON.parse(tools.urlDecodeBase64(encoded));
-    }
-
-    function isBlank(obj) {
-      return typeof obj === 'undefined' ||
-        obj === null ||
-        ((typeof obj === 'string' || obj instanceof String) && obj.length === 0) ||
-        (Number.isFinite(obj) && obj === 0) ||
-        ((typeof obj === 'boolean' || obj instanceof Boolean) && obj === false) ||
-        (Array.isArray(obj) && obj.length === 0) ||
-        (obj instanceof Error && typeof obj.message !== 'undefined')
-    }
-
-    function isNotBlank(obj) {
-      return !isBlank(obj);
-    }
-
     function toUtf8(s) {
-      let position = -1,
-        len = s.length,
-        chr, buffer = [];
+      let position = -1;
+      let len = s.length;
+      let chr, buffer = [];
       if (/^[\x00-\x7f]*$/.test(s))
         while (++position < len) buffer.push(s.charCodeAt(position));
       else
@@ -156,14 +132,6 @@
           else buffer.push((chr >> 12) | 224, ((chr >> 6) & 63) | 128, (chr & 63) | 128);
         }
       return buffer;
-    }
-
-    function urlEncodeBase64(input) {
-      let output = encodeBase64(input);
-      return output
-        .replace(/\+/g, '-')
-        .replace(/\//g, '_')
-        .split('=', 1)[0];
     }
 
     function urlDecodeBase64(input) {
@@ -178,6 +146,14 @@
         input += new Array(5 - pad).join('=');
       }
       return decodeBase64(input);
+    }
+
+    function urlEncodeBase64(input) {
+      let output = encodeBase64(input);
+      return output
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .split('=', 1)[0];
     }
   }
 })();

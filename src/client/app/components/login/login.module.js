@@ -5,7 +5,5 @@
   'use strict';
 
   angular
-    .module('frontend.login', [
-      'frontend.core', 'ui.router', 'ngAnimate', 'ngMaterial'
-    ]);
+    .module('frontend.login', ['frontend.core', 'ui.router', 'ngAnimate', 'ngMaterial']);
 })();

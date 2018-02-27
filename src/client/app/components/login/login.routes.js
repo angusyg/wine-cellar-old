@@ -7,9 +7,9 @@
     .module('frontend.login')
     .config(routing);
 
-  routing.$inject = ['$stateProvider'];
+  routing.$inject = ['$stateProvider', 'USER_ROLES'];
 
-  function routing($stateProvider) {
+  function routing($stateProvider, USER_ROLES) {
     const authState = {
       name: 'login',
       url: '/login',
@@ -19,7 +19,7 @@
           controller: 'LoginController',
           controllerAs: 'login'
         }
-      }
+      },
     };
 
     $stateProvider.state(authState);

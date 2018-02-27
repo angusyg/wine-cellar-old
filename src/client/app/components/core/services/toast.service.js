@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('frontend.core')
+    .module('frontend.core.services')
     .factory('toastService', ToastService);
 
   ToastService.$inject = ['$mdToast'];

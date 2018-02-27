@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('frontend.core')
+    .module('frontend.core.services')
     .factory('errorFactory', ErrorFactory);
 
   ErrorFactory.$inject = ['$log'];
@@ -43,6 +43,7 @@
     return {
       createConfigError: createConfigError,
       createFrontEndError: createFrontEndError,
+      createIllegalArgumentError: createIllegalArgumentError,
     };
 
     function createIllegalArgumentError(message) {
