@@ -55,7 +55,7 @@
     function createConfig(endpoint) {
       return {
         method: endpoint.method,
-        url: apiConfig.base + endpoint.path,
+        url: `${API.URL}${API.BASE}${endpoint.path}`,
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
           'Accept': 'application/json; charset=utf-8'
@@ -72,7 +72,10 @@
       let found = apiConfig.endpoints.find((endpoint) => {
         return endpoint.name === name;
       });
-      if (helper.isBlank(found)) throw errorFactory.createIllegalArgumentError(`Endpoint with name '${name}' not found`);
+      if (helper.isBlank(found)) throw errorFactory.createIllegalArgumentError(`
+        Endpoint with name '${name}'
+        not found `);
+      return found;
     }
 
     function endpointHasParameter(endpoint) {
@@ -81,7 +84,7 @@
 
     function initialize() {
       let defer = $q.defer();
-      $http.get(API.URL + API.DISCOVER)
+      $http.get(`${API.URL}${API.BASE}${API.DISCOVER}`)
         .then((response) => {
           apiConfig = response.data;
           defer.resolve();
@@ -90,8 +93,12 @@
     }
 
     function isSecureEndpoint(url, method) {
-      if (url === `${API.URL}${API.DISCOVER}`) return false;
-      if (url.startsWith('/api') || url.startsWith(`${API.URL}/api`)) {
+      if (url === `${API.URL}${API.BASE}${API.DISCOVER}`) return false;
+      if (url.startsWith('/api') || url.startsWith(`
+        $ {
+          API.URL
+        }
+        /api`)) {
         apiConfig.endpoints.some((endpoint) => {
           let devar = endpoint.path.replace(/\/:.*\//g, '/.*/');
           if (method === endpoint.method) return (url.match(devar) !== null);

@@ -9,7 +9,8 @@
     .module('frontend.core.constants')
     .constant('API', {
       URL: '',
-      DISCOVER: '/api/discover'
+      BASE: '/api',
+      DISCOVER: '/discover'
     })
     .constant('AUTH_EVENTS', {
       LOGIN_SUCCESS: 'auth-login-success',
