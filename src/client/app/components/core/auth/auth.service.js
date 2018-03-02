@@ -1,3 +1,7 @@
+/**
+ * Frontend client application auth module;
+ * Service to handle authentication (login, logout, JWTToken storage and refresh)
+ */
 (function() {
   'use strict';
 
@@ -40,7 +44,7 @@
     function isAuthorized(authorizedRoles) {
       if (!Array.isArray(authorizedRoles)) authorizedRoles = [authorizedRoles];
       let userRoles = helper.getUserRolesFromToken(getToken());
-      return isLoggedIn() && userRoles.some(role => authorizedRoles.indexOf(role) >= 0);
+      return isLoggedIn() && authorizedRoles.some(role => userRoles.indexOf(role) >= 0);
     };
 
     function isLoggedIn() {

@@ -1,3 +1,7 @@
+/**
+ * Frontend client application services:
+ * Helper service with multiples useful functions
+ */
 (function() {
   'use strict';
 

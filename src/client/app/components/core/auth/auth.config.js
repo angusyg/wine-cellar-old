@@ -1,3 +1,7 @@
+/**
+ * Frontend client application auth module;
+ * Config to add auth interceptor
+ */
 (function() {
   'use strict';
 

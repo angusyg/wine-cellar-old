@@ -1,25 +1,21 @@
 /**
- * Frontend client application login module:
+ * Frontend client application Login module:
  * Routes
  */
 (function() {
   angular
     .module('frontend.login')
-    .config(routing);
+    .config(Routing);
 
-  routing.$inject = ['$stateProvider', 'USER_ROLES'];
+  Routing.$inject = ['$stateProvider'];
 
-  function routing($stateProvider, USER_ROLES) {
+  function Routing($stateProvider) {
     const authState = {
       name: 'login',
       url: '/login',
-      views: {
-        'content@': {
-          templateUrl: '/html/login.html',
-          controller: 'LoginController',
-          controllerAs: 'login'
-        }
-      },
+      templateUrl: '/partials/login.html',
+      controller: 'LoginController',
+      controllerAs: 'login',
     };
 
     $stateProvider.state(authState);

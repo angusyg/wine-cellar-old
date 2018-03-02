@@ -1,3 +1,7 @@
+/**
+ * Frontend client application services:
+ * Service to create Frontend custom errors
+ */
 (function() {
   'use strict';
 

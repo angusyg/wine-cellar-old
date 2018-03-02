@@ -1,3 +1,7 @@
+/**
+ * Frontend client application services:
+ * Service to display Toast for notification
+ */
 (function() {
   'use strict';
 

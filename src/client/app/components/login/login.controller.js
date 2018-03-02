@@ -1,5 +1,5 @@
 /**
- * Frontend client application login module:
+ * Frontend client application Login module:
  * Controller
  */
 (function() {
@@ -9,9 +9,9 @@
     .module('frontend.login')
     .controller('LoginController', LoginController);
 
-  LoginController.$inject = ['$state', 'toastService', 'authService'];
+  LoginController.$inject = ['toastService', 'authService'];
 
-  function LoginController($state, toastService, authService) {
+  function LoginController(toastService, authService) {
     const vm = this;
 
     vm.user = {

@@ -1,3 +1,7 @@
+/**
+ * Frontend client application api module;
+ * Service to make call to api server
+ */
 (function() {
   'use strict';
 
@@ -66,7 +70,7 @@
     function getEndpoint(name) {
       if (helper.isBlank(name)) throw errorFactory.createIllegalArgumentError('Null endpoint name');
       let found = apiConfig.endpoints.find((endpoint) => {
-        return endpoint === name;
+        return endpoint.name === name;
       });
       if (helper.isBlank(found)) throw errorFactory.createIllegalArgumentError(`Endpoint with name '${name}' not found`);
     }
@@ -76,20 +80,24 @@
     }
 
     function initialize() {
-      return $http.get(API.URL + API.DISCOVER)
+      let defer = $q.defer();
+      $http.get(API.URL + API.DISCOVER)
         .then((response) => {
           apiConfig = response.data;
-          return $q.resolve();
+          defer.resolve();
         });
+      return defer.promise;
     }
 
     function isSecureEndpoint(url, method) {
-      if (apiConfig === null) return false;
-      apiConfig.endpoints.some((endpoint) => {
-        let devar = endpoint.replace(/\/:.*\//g, '/.*/');
-        if (method === endpoint.method) return (url.match(devar) !== null);
-        return false;
-      });
+      if (url === `${API.URL}${API.DISCOVER}`) return false;
+      if (url.startsWith('/api') || url.startsWith(`${API.URL}/api`)) {
+        apiConfig.endpoints.some((endpoint) => {
+          let devar = endpoint.path.replace(/\/:.*\//g, '/.*/');
+          if (method === endpoint.method) return (url.match(devar) !== null);
+          return false;
+        });
+      } else return false;
     }
 
     function validateData(endpoint, cfg, config) {

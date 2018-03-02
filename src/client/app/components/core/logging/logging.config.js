@@ -1,5 +1,6 @@
 /**
- * Logging config:
+ * Frontend client application logging module:
+ * Config 
  * - Log decorator to send every client log to server
  * - Exception handler to log uncatched exceptions
  */

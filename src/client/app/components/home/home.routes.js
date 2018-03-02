@@ -1,26 +1,25 @@
 /**
- * Frontend client application login module
+ * Frontend client application Home module:
+ * Routes
  */
 (function() {
+  'use strict';
+
   angular
     .module('frontend.home')
-    .config(routing);
+    .config(Routing);
 
-  routing.$inject = ['$stateProvider'];
+  Routing.$inject = ['$stateProvider'];
 
-  function routing($stateProvider) {
-    const authState = {
-      name: 'app.home',
+  function Routing($stateProvider) {
+    const homeState = {
+      name: 'home',
       url: '/home',
-      views: {
-        'content@': {
-          templateUrl: '/html/home.html',
-          controller: 'HomeController',
-          controllerAs: 'home'
-        }
-      }
+      templateUrl: '/partials/home.html',
+      controller: 'HomeController',
+      controllerAs: 'home',
     };
 
-    $stateProvider.state(authState);
+    $stateProvider.state(homeState);
   }
 }());

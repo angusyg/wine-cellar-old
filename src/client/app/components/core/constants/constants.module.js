@@ -1,6 +1,5 @@
 /**
  * Frontend client application constants module:
- * Constants
  */
 (function() {
   'use strict';

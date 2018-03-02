@@ -3,14 +3,13 @@
  */
 (function() {
   angular
-    .module('wine-cellar')
-    .config(Configdd);
+    .module('frontend')
+    .config(Config);
 
   // Configuration of providers
-  Configdd.$inject = ['$urlRouterProvider', '$mdAriaProvider'];
+  Config.$inject = ['$mdAriaProvider'];
 
-  function Configdd($urlRouterProvider, $mdAriaProvider) {
-    $urlRouterProvider.otherwise('/login');
+  function Config($mdAriaProvider) {
     $mdAriaProvider.disableWarnings();
   }
 }());

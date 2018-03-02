@@ -1,3 +1,7 @@
+/**
+ * Frontend client application auth module;
+ * Interceptor to inject if needed JWTToken on secured calls
+ */
 (function() {
   'use strict';
 

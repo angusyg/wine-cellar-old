@@ -1,10 +1,14 @@
+/**
+ * Frontend client application constants module:
+ * Constants definition
+ */
 (function() {
   'use strict';
 
   angular
     .module('frontend.core.constants')
     .constant('API', {
-      URL: 'http://localhost:8080',
+      URL: '',
       DISCOVER: '/api/discover'
     })
     .constant('AUTH_EVENTS', {
@@ -17,6 +21,7 @@
     })
     .constant('HTTP_STATUS_CODE', {
       OK: 200,
+      ACCEPTED: 202,
       NO_CONTENT: 204,
       UNAUTHORIZED_ACCESS: 401,
       UNAUTHORIZED_OPERATION: 403,

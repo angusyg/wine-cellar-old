@@ -1,8 +1,10 @@
 /**
- * HttpErrorInterceptor:
+ * Frontend client application logging module:
  * Http interceptor to send to server logger, errors received from api server calls
  */
 (function() {
+  'use strict';
+
   angular
     .module('frontend.core.logging')
     .factory('httpErrorInterceptor', HttpErrorInterceptor);
@@ -15,7 +17,7 @@
     };
 
     function responseError(err) {
-      if (err.status > 400 && err.status < 600) {
+      if (err.status >= 400 && err.status <= 600) {
         $log.error(`Received ${err.status} on request ${err.data.reqId}: ${JSON.stringify(err.config)}`);
       }
       return $q.reject(err);

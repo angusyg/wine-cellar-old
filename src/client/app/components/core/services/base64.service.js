@@ -1,3 +1,7 @@
+/**
+ * Frontend client application services:
+ * Service to encode and decode base 64
+ */
 (function() {
   'use strict';
 

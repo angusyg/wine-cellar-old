@@ -23,6 +23,10 @@ const sourceJs = [
   'src/client/app/**/*.module.js',
   'src/client/app/**/*.js'
 ];
+const sourceCss = [
+  'src/client/styles/**/*.sass',
+  'src/client/styles/**/*.scss'
+];
 const destinationJs = 'src/client/public/js';
 const destinationCss = 'src/client/public/stylesheets';
 const finalJs = 'client.js';
@@ -87,6 +91,14 @@ gulp.task('copy-css-lib', ['clean-css'], () => {
   ], logError);
 });
 
+gulp.task('sass', () => {
+  pump([
+    gulp.src(sourceCss),
+    plugins.sass(),
+    gulp.dest(destinationCss),
+  ], logError);
+});
+
 // minification of client js
 gulp.task('uglify', () => {
   pump([
@@ -108,6 +120,7 @@ gulp.task('uglify', () => {
 // watch files for reload in dev mode
 gulp.task('watch', () => {
   plugins.livereload.listen();
+  gulp.watch(sourceCss, ['sass']);
   gulp.watch(sourceJs, ['uglify']);
 });
 

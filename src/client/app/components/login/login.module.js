@@ -1,9 +1,9 @@
 /**
- * Frontend client application login module
+ * Frontend client application Login module
  */
 (function() {
   'use strict';
 
   angular
-    .module('frontend.login', ['frontend.core', 'ui.router', 'ngAnimate', 'ngMaterial']);
+    .module('frontend.login', ['frontend.core.auth', 'ui.router']);
 })();
