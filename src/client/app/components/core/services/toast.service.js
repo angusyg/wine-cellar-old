@@ -9,7 +9,7 @@
     .module('frontend.core.services')
     .factory('toastService', ToastService);
 
-  ToastService.$inject = ['$mdToast'];
+  ToastService.$inject = [];
 
   function ToastService($mdToast) {
     return {
@@ -31,9 +31,9 @@
     }
 
     function show(level, message) {
-      $mdToast.show($mdToast.simple()
-        .textContent(message)
-        .theme(`${level}-toast`));
+      //$mdToast.show($mdToast.simple()
+      //  .textContent(message)
+      //  .theme(`${level}-toast`));
     }
   }
 })();

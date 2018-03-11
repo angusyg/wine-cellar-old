@@ -3,5 +3,5 @@
  */
 (function() {
   angular
-    .module('frontend', ['frontend.core', 'frontend.home', 'frontend.login', 'ngMaterial']);
+    .module('frontend', ['frontend.core', 'frontend.home', 'frontend.parameters']);
 }());

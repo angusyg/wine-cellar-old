@@ -5,5 +5,5 @@
   'use strict';
 
   angular
-    .module('frontend.core.services', ['ngMaterial']);
+    .module('frontend.core.services', []);
 })();

@@ -1,6 +1,5 @@
 html, body
-  background-color: rgb(255, 255, 255)
-  font-size: 15px
+  background-color: rgba(140, 169, 171, 0.55)
 
 @font-face
     font-family: 'Material Icons'
@@ -13,7 +12,7 @@ html, body
     font-family: 'Material Icons'
     font-weight: normal
     font-style: normal
-    font-size: 24px
+    font-size: 1rem
     line-height: 1
     letter-spacing: normal
     text-transform: none
@@ -24,5 +23,88 @@ html, body
     -webkit-font-feature-settings: 'liga'
     -webkit-font-smoothing: antialiased
 
-.transparent
-    background-color: transparent
+.modal-header
+  border: 0
+  color: rgba(255, 255 ,255 ,1)
+
+.modal-content
+  border: 0
+  background-color: rgba(140, 169, 171, 0.55)
+  color: rgba(255, 255, 255, 1)
+
+.modal-footer
+  border: 0
+  padding-top: 0
+
+.login-dialog
+  .modal-header img
+    width: 35px
+
+/************ Form tooltip error ************/
+.tooltip.error
+  width: 70%
+
+.tooltip.error .tooltip-inner
+  color: rgba(255, 255, 255, 1)
+  background-color: rgba(190, 75, 73, 1)
+  box-shadow: 0 6px 12px rgba(0,0,0,.175)
+
+.tooltip.error .bs-tooltip-auto[x-placement^=right] .arrow::before, .bs-tooltip-top .arrow::before
+  top: 0;
+  border-width: .4rem .4rem 0;
+  border-top-color: rgba(190, 75, 73, 1)
+
+.tooltip.error .bs-tooltip-auto[x-placement^=right] .arrow::before, .bs-tooltip-right .arrow::before
+  right: 0;
+  border-width: .4rem .4rem .4rem 0
+  border-right-color: rgba(190, 75, 73, 1)
+
+.tooltip.error .bs-tooltip-auto[x-placement^=bottom] .arrow::before, .bs-tooltip-bottom .arrow::before
+  bottom: 0
+  border-width: 0 .4rem .4rem
+  border-bottom-color: rgba(190, 75, 73, 1)
+
+.tooltip.success
+  width: 70%
+
+.tooltip.success .tooltip-inner
+  color: rgba(255, 255, 255, 1)
+  background-color: rgba(190, 75, 190, 1)
+  box-shadow: 0 6px 12px rgba(0,0,0,.175)
+
+.tooltip.success .bs-tooltip-auto[x-placement^=right] .arrow::before, .bs-tooltip-top .arrow::before
+  top: 0;
+  border-width: .4rem .4rem 0;
+  border-top-color: rgba(190, 75, 190, 1)
+
+.tooltip.success .bs-tooltip-auto[x-placement^=right] .arrow::before, .bs-tooltip-right .arrow::before
+  right: 0;
+  border-width: .4rem .4rem .4rem 0
+  border-right-color: rgba(190, 75, 190, 1)
+
+.tooltip.success .bs-tooltip-auto[x-placement^=bottom] .arrow::before, .bs-tooltip-bottom .arrow::before
+  bottom: 0
+  border-width: 0 .4rem .4rem
+  border-bottom-color: rgba(190, 75, 190, 1)
+/************ Form tooltip error ************/
+
+.shake
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both
+  transform: translate3d(0, 0, 0)
+  backface-visibility: hidden
+  perspective: 1000px
+
+@keyframes shake
+  10%, 90%
+    transform: translate3d(-1px, 0, 0)
+  20%, 80%
+    transform: translate3d(2px, 0, 0)
+  30%, 50%, 70%
+    transform: translate3d(-4px, 0, 0)
+  40%, 60%
+    transform: translate3d(4px, 0, 0)
+
+.list-group
+  max-height: 393px
+  overflow-y: auto
+  border-radius: 5px

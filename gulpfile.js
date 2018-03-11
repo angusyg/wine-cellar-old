@@ -8,15 +8,14 @@ const uglify = require('gulp-uglify-es').default;
 const libJs = [
   'node_modules/jquery/dist/jquery.min.js',
   'node_modules/angular/angular.min.js',
-  'node_modules/angular-aria/angular-aria.min.js',
-  'node_modules/angular-material/angular-material.min.js',
   'node_modules/angular-animate/angular-animate.min.js',
   'node_modules/angular-messages/angular-messages.min.js',
   'node_modules/@uirouter/angularjs/release/angular-ui-router.min.js',
   'node_modules/angular-storage/dist/angular-storage.min.js',
-  'node_modules/angular-deferred-bootstrap/angular-deferred-bootstrap.min.js',
+  'node_modules/ui-bootstrap4/dist/ui-bootstrap-tpls.js',
 ];
-const libCss = ['node_modules/angular-material/angular-material.min.css'];
+const libJsToUglify = ['node_modules/angular1-ui-bootstrap4/dist/ui-bootstrap-tpls.js'];
+const libCss = ['node_modules/bootstrap/dist/css/bootstrap.min.css'];
 const sourceJs = [
   'src/client/app/components/core/**/*.module.js',
   'src/client/app/app.module.js',
@@ -32,6 +31,15 @@ const destinationCss = 'src/client/public/stylesheets';
 const finalJs = 'client.js';
 const finalLibJs = 'lib.min.js';
 const esLintJs = ['src/**/*.js'];
+const cleanJs = [`${destinationJs}/*.js`];
+const cleanTempJs = [
+  `${destinationJs}/*.js`,
+  `!${destinationJs}/*.min.js`
+];
+const cleanCss = [
+  `${destinationCss}/*.css`,
+  `${destinationCss}/*.map`,
+];
 
 /**
  * Log to console an Error
@@ -58,16 +66,19 @@ gulp.task('eslint', () => {
 
 // remove js libs
 gulp.task('clean-js', () => {
-  del([`${destinationJs}/*.js`])
+  del(cleanJs)
     .catch(logError);
 });
 
 // remove css libs
 gulp.task('clean-css', () => {
-  del([
-      `${destinationCss}/*.css`,
-      `${destinationCss}/*.map`,
-    ])
+  del(cleanCss)
+    .catch(logError);
+});
+
+// remove js libs
+gulp.task('clean-temp-js', () => {
+  del(cleanTempJs)
     .catch(logError);
 });
 
@@ -125,4 +136,4 @@ gulp.task('watch', () => {
 });
 
 // default task (production)
-gulp.task('default', ['copy-css-lib', 'copy-js-lib', 'uglify']);
+gulp.task('default', ['copy-css-lib', 'copy-js-lib', 'uglify', 'clean-temp-js']);

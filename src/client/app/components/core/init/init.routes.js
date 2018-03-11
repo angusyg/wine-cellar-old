@@ -15,12 +15,8 @@
   function Routing($stateProvider) {
     const initState = {
       name: 'init',
-      url: '',
-      controller: 'InitController',
-      resolve: {
-        api: ['apiService', (apiService) => apiService.initialize()],
-        auth: ['authService', 'api', (authService, api) => authService.initialize()]
-      }
+      url: '/',
+      controller: 'InitController'
     };
     $stateProvider.state(initState);
   }
@@ -29,6 +25,6 @@
   Config.$inject = ['$urlRouterProvider'];
 
   function Config($urlRouterProvider) {
-    $urlRouterProvider.otherwise('/init');
+    $urlRouterProvider.otherwise('/');
   }
 }());

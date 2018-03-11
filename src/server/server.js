@@ -1,8 +1,8 @@
-const app = require('../../app');
-const debug = require('debug')('#APP_NAME#:server');
 const http = require('http');
+const debug = require('debug')('#APP_NAME#:server');
+const app = require('./app');
 const logger = require('./helpers/logger').server;
-const config = require('../../config');
+const config = require('./config');
 
 /**
  * Check if port or named pipe

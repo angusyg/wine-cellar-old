@@ -7,9 +7,9 @@
     .config(Config);
 
   // Configuration of providers
-  Config.$inject = ['$mdAriaProvider'];
+  Config.$inject = [];
 
   function Config($mdAriaProvider) {
-    $mdAriaProvider.disableWarnings();
+    //$mdAriaProvider.disableWarnings();
   }
 }());

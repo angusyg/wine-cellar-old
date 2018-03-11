@@ -12,6 +12,9 @@
       BASE: '/api',
       DISCOVER: '/discover'
     })
+    .constant('APP', {
+      HOME_STATE_NAME: 'app',
+    })
     .constant('AUTH_EVENTS', {
       LOGIN_SUCCESS: 'auth-login-success',
       LOGIN_FAILED: 'auth-login-failed',
@@ -30,6 +33,7 @@
       SERVER_ERROR: 500,
     })
     .constant('SECURITY', {
+      ACTIVATED: true,
       ACCESS_TOKEN: 'JWTToken',
       REFRESH_TOKEN: 'RefreshToken',
     })

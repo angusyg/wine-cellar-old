@@ -9,16 +9,15 @@
     .module('frontend.core.init')
     .controller('InitController', InitController);
 
-  InitController.$inject = ['$state', 'authService'];
+  InitController.$inject = ['$state', 'APP'];
 
-  function InitController($state, authService) {
+  function InitController($state, APP) {
     var vm = this;
 
     initialize();
 
     function initialize() {
-      if (authService.isLoggedIn()) $state.go('home');
-      else $state.go('login');
+      $state.go(APP.HOME_STATE_NAME);
     }
   }
 })();

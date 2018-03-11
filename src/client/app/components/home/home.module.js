@@ -5,5 +5,5 @@
   'use strict';
 
   angular
-    .module('frontend.home', ['ui.router']);
+    .module('frontend.home', []);
 })();

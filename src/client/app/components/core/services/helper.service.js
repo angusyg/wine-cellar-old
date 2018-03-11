@@ -21,13 +21,13 @@
       isNotBlank: isNotBlank,
     };
 
+    function getUserIdFromToken(token) {
+      return getUserInfosFromToken(token).id;
+    }
+
     function getUserInfosFromToken(token) {
       let encoded = token.split('.')[1];
       return JSON.parse(base64.urlDecodeBase64(encoded));
-    }
-
-    function getUserIdFromToken(token) {
-      return getUserInfosFromToken(token).id;
     }
 
     function getUserLoginFromToken(token) {

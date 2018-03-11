@@ -9,9 +9,9 @@
     .module('frontend.core.auth')
     .config(Config);
 
-  Config.$inject = ['$httpProvider'];
+  Config.$inject = ['$httpProvider', 'SECURITY'];
 
-  function Config($httpProvider) {
-    $httpProvider.interceptors.push('authInterceptor');
+  function Config($httpProvider, SECURITY) {
+    if (SECURITY.ACTIVATED) $httpProvider.interceptors.push('authInterceptor');
   }
 })();

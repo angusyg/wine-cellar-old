@@ -9,9 +9,9 @@
     .module('frontend.core.api')
     .factory('apiService', ApiService);
 
-  ApiService.$inject = ['$q', '$http', 'helper', 'API', 'HTTP_STATUS_CODE', 'errorFactory'];
+  ApiService.$inject = ['$q', '$http', 'helper', 'API', 'HTTP_STATUS_CODE', 'Exception'];
 
-  function ApiService($q, $http, helper, API, HTTP_STATUS_CODE, errorFactory) {
+  function ApiService($q, $http, helper, API, HTTP_STATUS_CODE, Exception) {
     const ApiCallConfig = class ApiCallConfig {
       constructor() {
         this.parameters = {};
@@ -29,27 +29,31 @@
     return {
       ApiCallConfig,
       call: call,
-      getEndpoint: getEndpoint,
-      initialize: initialize,
+      callResource: callResource,
+      getApiConfig: getApiConfig,
       isSecureEndpoint: isSecureEndpoint,
     };
 
-    function call(endpoint, cfg) {
+    function call(name, cfg) {
       let defer = $q.defer();
       try {
-        validateEndpoint(endpoint);
-        let config = createConfig(endpoint);
-        validateParameters(endpoint, cfg, config);
-        validateData(endpoint, cfg, config);
-        doCall(config)
-          .then((response) => {
-            if (response.status !== HTTP_STATUS_CODE.NO_CONTENT) defer.resolve(response.data);
-            else defer.resolve();
-          });
+        getEndpoint(name)
+          .then(endpoint => doCall(endpoint, cfg, defer));
       } catch (err) {
         defer.reject(err);
       }
-      return defer;
+      return defer.promise;
+    }
+
+    function callResource(name, operation, cfg) {
+      let defer = $q.defer();
+      try {
+        getResourceEndpoint(name, operation)
+          .then(endpoint => doCall(endpoint, cfg, defer));
+      } catch (err) {
+        defer.reject(err);
+      }
+      return defer.promise;
     }
 
     function createConfig(endpoint) {
@@ -60,72 +64,110 @@
           'Content-Type': 'application/json; charset=utf-8',
           'Accept': 'application/json; charset=utf-8'
         }
-      }
-    }
-
-    function doCall(config) {
-      return $http(config);
-    }
-
-    function getEndpoint(name) {
-      if (helper.isBlank(name)) throw errorFactory.createIllegalArgumentError('Null endpoint name');
-      let found = apiConfig.endpoints.find((endpoint) => {
-        return endpoint.name === name;
-      });
-      if (helper.isBlank(found)) throw errorFactory.createIllegalArgumentError(`
-        Endpoint with name '${name}'
-        not found `);
-      return found;
+      };
     }
 
     function endpointHasParameter(endpoint) {
       return endpoint.path.match(/:[a-zA-Z]/g);
     }
 
-    function initialize() {
-      let defer = $q.defer();
-      $http.get(`${API.URL}${API.BASE}${API.DISCOVER}`)
+    function doCall(endpoint, cfg, defer) {
+      validateEndpoint(endpoint);
+      let config = createConfig(endpoint);
+      validateParameters(endpoint, cfg, config);
+      validateData(endpoint, cfg, config);
+      $http(config)
         .then((response) => {
-          apiConfig = response.data;
-          defer.resolve();
-        });
+          if (response.status !== HTTP_STATUS_CODE.NO_CONTENT && response.status !== HTTP_STATUS_CODE.ACCEPTED) defer.resolve(response.data);
+          else defer.resolve();
+        })
+        .catch(err => defer.reject(err));
+    }
+
+    function getApiConfig() {
+      let defer = $q.defer();
+      if (helper.isNotBlank(apiConfig)) defer.resolve(apiConfig);
+      else {
+        $http.get(`${API.URL}${API.BASE}${API.DISCOVER}`)
+          .then((response) => {
+            apiConfig = response.data;
+            defer.resolve(apiConfig);
+          });
+      }
       return defer.promise;
     }
 
-    function isSecureEndpoint(url, method) {
-      if (url === `${API.URL}${API.BASE}${API.DISCOVER}`) return false;
-      if (url.startsWith('/api') || url.startsWith(`
-        $ {
-          API.URL
-        }
-        /api`)) {
-        apiConfig.endpoints.some((endpoint) => {
-          let devar = endpoint.path.replace(/\/:.*\//g, '/.*/');
-          if (method === endpoint.method) return (url.match(devar) !== null);
-          return false;
+    function getEndpoint(name) {
+      return getApiConfig()
+        .then(() => {
+          if (helper.isBlank(name)) throw new Exception.IllegalArgumentException('Parameter name is blank');
+          if (helper.isBlank(apiConfig.endpoints[name])) throw new Exception.IllegalArgumentException(`Endpoint with name '${name}' not found`);
+          return apiConfig.endpoints[name];
         });
-      } else return false;
+    }
+
+    function getResourceEndpoint(name, operation) {
+      return getApiConfig()
+        .then(() => {
+          if (helper.isBlank(name)) throw new Exception.IllegalArgumentException('Parameter name is blank');
+          if (helper.isBlank(apiConfig.endpoints.resources[name])) throw new Exception.IllegalArgumentException(`Resource '${name}' not found`);
+          if (helper.isBlank(apiConfig.endpoints.resources[name][operation])) throw new Exception.IllegalArgumentException(`Resource '${name}' operation '${operation}' not found`);
+          return apiConfig.endpoints.resources[name][operation];
+        });
+    }
+
+    function isSecureEndpoint(url, method) {
+      let defer = $q.defer();
+      if (url === `${API.URL}${API.BASE}${API.DISCOVER}`) defer.resolve(false);
+      else if (url.startsWith('/api') || url.startsWith(`${API.URL}/api`)) {
+        getApiConfig()
+          .then(() => {
+            let found = Object.entries(apiConfig.endpoints).some((endpoint) => {
+              if (endpoint[0] !== 'resources') {
+                let devar = endpoint[1].path.replace(/\/:.*\//g, '/.*/');
+                if (method === endpoint[1].method && url.match(devar) !== null) {
+                  defer.resolve(endpoint[1].secure);
+                  return true;
+                }
+                return false;
+              } else {
+                return Object.entries(endpoint[1]).some((resource) => {
+                  return Object.entries(resource[1]).some((operation) => {
+                    let devar = operation[1].path.replace(/\/:.*\//g, '/.*/');
+                    if (method === operation[1].method && url.match(devar) !== null) {
+                      defer.resolve(operation[1].secure);
+                      return true;
+                    }
+                    return false;
+                  });
+                });
+              }
+            });
+            if (!found) defer.reject(new Exception.ConfigException(`No api endpoint found for URL ${method} ${url}`));
+          });
+      } else defer.resolve(false);
+      return defer.promise;
     }
 
     function validateData(endpoint, cfg, config) {
       if (helper.isNotBlank(endpoint.data)) {
-        if (helper.isBlank(cfg) || helper.isBlank(cfg.data)) throw errorFactory.createIllegalArgumentError('Endpoint with data but no data passed');
+        if (helper.isBlank(cfg) || helper.isBlank(cfg.data)) throw new Exception.IllegalArgumentException('Endpoint with data but no data passed');
         config.data = JSON.stringify(cfg.data);
       }
     }
 
     function validateEndpoint(endpoint) {
-      if (helper.isBlank(endpoint)) throw errorFactory.createConfigError('Blank API endpoint');
-      else if (helper.isBlank(endpoint.method)) throw errorFactory.createConfigError(`No method for API endpoint: ${JSON.stringify(endpoint)}`);
+      if (helper.isBlank(endpoint)) throw new Exception.IllegalArgumentException('Blank API endpoint');
+      else if (helper.isBlank(endpoint.method)) throw new Exception.IllegalArgumentException(`No method for API endpoint: ${JSON.stringify(endpoint)}`);
     }
 
     function validateParameters(endpoint, cfg, config) {
       let parameters = endpointHasParameter(endpoint);
       if (parameters) {
-        if (helper.isBlank(cfg) || helper.isBlank(cfg.parameters)) throw errorFactory.createIllegalArgumentError('Endpoint with parameters but no parameters passed');
+        if (helper.isBlank(cfg) || helper.isBlank(cfg.parameters)) throw new Exception.IllegalArgumentException('Endpoint with parameters but no parameters passed');
         parameters.every((param) => {
           let cleanParam = param.substr(1);
-          if (helper.isBlank(cfg.parameters[cleanParam])) throw errorFactory.createIllegalArgumentError(`Endpoint with parameter '${cleanParam}' but no value found`);
+          if (helper.isBlank(cfg.parameters[cleanParam])) throw new Exception.IllegalArgumentException(`Endpoint with parameter '${cleanParam}' but no value found`);
           config.url = config.url.replace(param, cfg.parameters[cleanParam]);
           return true;
         });

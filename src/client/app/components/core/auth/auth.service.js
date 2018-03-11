@@ -9,22 +9,22 @@
     .module('frontend.core.auth')
     .factory('authService', AuthService);
 
-  AuthService.$inject = ['$http', 'store', '$q', 'apiService', 'helper', 'errorFactory', 'SECURITY'];
+  AuthService.$inject = ['$http', 'store', '$q', '$rootScope', '$transitions', 'apiService', 'helper', 'SECURITY', 'AUTH_EVENTS'];
 
-  function AuthService($http, store, $q, apiService, helper, errorFactory, SECURITY) {
-    let LOGIN_ENDPOINT = null;
-    let LOGOUT_ENDPOINT = null;
-    let REFRESH_ENDPOINT = null;
+  function AuthService($http, store, $q, $rootScope, $transitions, apiService, helper, SECURITY, AUTH_EVENTS) {
+    const LOGIN_ENDPOINT = 'login';
+    const LOGOUT_ENDPOINT = 'logout';
+    const REFRESH_ENDPOINT = 'refreshToken';
 
     return {
       getToken: getToken,
       getRefreshToken: getRefreshToken,
-      initialize: initialize,
       isAuthorized: isAuthorized,
       isLoggedIn: isLoggedIn,
       login: login,
       logout: logout,
-      refreshToken: refreshToken
+      refreshToken: refreshToken,
+      stateSecurization: stateSecurization
     };
 
     function getToken() {
@@ -35,16 +35,12 @@
       return store.get(SECURITY.REFRESH_TOKEN);
     }
 
-    function initialize() {
-      LOGIN_ENDPOINT = apiService.getEndpoint('login');
-      LOGOUT_ENDPOINT = apiService.getEndpoint('logout');
-      REFRESH_ENDPOINT = apiService.getEndpoint('refreshToken');
-    }
-
     function isAuthorized(authorizedRoles) {
+      if (!SECURITY.ACTIVATED) return true;
+      if (!isLoggedIn()) return false;
       if (!Array.isArray(authorizedRoles)) authorizedRoles = [authorizedRoles];
       let userRoles = helper.getUserRolesFromToken(getToken());
-      return isLoggedIn() && authorizedRoles.some(role => userRoles.indexOf(role) >= 0);
+      return authorizedRoles.some(role => userRoles.indexOf(role) >= 0);
     };
 
     function isLoggedIn() {
@@ -77,6 +73,23 @@
           store.set(SECURITY.ACCESS_TOKEN, response.accessToken);
           return $q.resolve();
         });
+    }
+
+    function stateSecurization() {
+      if (SECURITY.ACTIVATED) $transitions.onStart({
+        to: '*'
+      }, (trans) => {
+        const toState = trans.$to();
+        if (toState.data && toState.data.authorizedRoles) {
+          if (!isLoggedIn()) {
+            $rootScope.$broadcast(AUTH_EVENTS.NOT_AUTHENTICATED, trans);
+            return false;
+          } else if (!isAuthorized(toState.data.authorizedRoles)) {
+            $rootScope.$broadcast(AUTH_EVENTS.NOT_AUTHORIZED, trans);
+            return false;
+          }
+        }
+      });
     }
   }
 })();
