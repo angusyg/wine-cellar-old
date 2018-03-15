@@ -16,6 +16,7 @@ const middlewares = {};
 
 /**
  * Catch all non mapped request for error
+ *
  * @param  {Object}         req  - Request received
  * @param  {Object}         res  - Response to be send
  * @param  {nextMiddleware} next - Callback to pass control to next middleware
@@ -29,6 +30,7 @@ middlewares.errorMapper = (req, res, next) => {
 
 /**
  * Default Error handler
+ *
  * @param  {Object}         err  - Unhandled error to process
  * @param  {Object}         req  - Request received
  * @param  {Object}         res  - Response to be send
@@ -53,6 +55,7 @@ middlewares.errorHandler = (err, req, res, next) => {
 
 /**
  * Generates an unique ID to identify the request
+ *
  * @param  {Object}         req  - Request received
  * @param  {Object}         res  - Response to be send
  * @param  {nextMiddleware} next - Callback to pass control to next middleware
@@ -76,12 +79,9 @@ middlewares.loginRequired = async (req, res, next) => {
       req.user = decode;
       next();
     } catch (err) {
-      console.log('DDDDDDDDDDDDDDDDD', req.url);
       if (err.name === 'TokenExpiredError') {
-        console.log('DDDDDDDDDDDDDDDDD', req.url);
         if (req.url === config.api.endpoints.refreshToken.path) {
           req.user = jsonwebtoken.decode(req.headers[config.api.accessTokenHeader.toLowerCase()].split(' ')[1]);
-          console.log('USER ', req.user);
           req.refresh = req.headers[config.api.refreshTokenHeader.toLowerCase()];
           next();
         } else {

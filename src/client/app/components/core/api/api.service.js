@@ -12,14 +12,39 @@
   ApiService.$inject = ['$q', '$http', 'helper', 'API', 'HTTP_STATUS_CODE', 'Exception'];
 
   function ApiService($q, $http, helper, API, HTTP_STATUS_CODE, Exception) {
+    /**
+     * Class representing a configuration for api endpoint call
+     *
+     * @class ApiCallConfig
+     * @property {Object} parameters  - URL parameters
+     * @property {Object} data        - Data to be sent
+     */
     const ApiCallConfig = class ApiCallConfig {
+      /**
+        * Creates a configuration for api endpoint call
+        *
+        * @constructor
+        */
       constructor() {
         this.parameters = {};
         this.data = {};
       }
+      /**
+       * Add an URL parameter to the configuration
+       *
+       * @param {string} name  - Name of the URL parameter
+       * @param {string} value - Value of the parameter (will replace parameter name in call URL)
+       * @public
+       */
       addParameter(name, value) {
         this.parameters[name] = value;
       }
+      /**
+       * Add data to configuration
+       *
+       * @param {Object} data - Object to send in call body
+       * @public
+       */
       addData(data) {
         this.data = data;
       }
@@ -36,23 +61,17 @@
 
     function call(name, cfg) {
       let defer = $q.defer();
-      try {
-        getEndpoint(name)
-          .then(endpoint => doCall(endpoint, cfg, defer));
-      } catch (err) {
-        defer.reject(err);
-      }
+      getEndpoint(name)
+        .catch(err => defer.reject(err))
+        .then(endpoint => doCall(endpoint, cfg, defer));
       return defer.promise;
     }
 
     function callResource(name, operation, cfg) {
       let defer = $q.defer();
-      try {
-        getResourceEndpoint(name, operation)
-          .then(endpoint => doCall(endpoint, cfg, defer));
-      } catch (err) {
-        defer.reject(err);
-      }
+      getResourceEndpoint(name, operation)
+        .catch(err => defer.reject(err))
+        .then(endpoint => doCall(endpoint, cfg, defer));
       return defer.promise;
     }
 
@@ -72,16 +91,20 @@
     }
 
     function doCall(endpoint, cfg, defer) {
-      validateEndpoint(endpoint);
-      let config = createConfig(endpoint);
-      validateParameters(endpoint, cfg, config);
-      validateData(endpoint, cfg, config);
-      $http(config)
-        .then((response) => {
-          if (response.status !== HTTP_STATUS_CODE.NO_CONTENT && response.status !== HTTP_STATUS_CODE.ACCEPTED) defer.resolve(response.data);
-          else defer.resolve();
-        })
-        .catch(err => defer.reject(err));
+      try {
+        validateEndpoint(endpoint);
+        let config = createConfig(endpoint);
+        validateParameters(endpoint, cfg, config);
+        validateData(endpoint, cfg, config);
+        $http(config)
+          .catch(err => defer.reject(err))
+          .then((response) => {
+            if (response.status !== HTTP_STATUS_CODE.NO_CONTENT && response.status !== HTTP_STATUS_CODE.ACCEPTED) defer.resolve(response.data);
+            else defer.resolve();
+          });
+      } catch(err) {
+        defer.reject(err);
+      }
     }
 
     function getApiConfig() {
@@ -89,6 +112,7 @@
       if (helper.isNotBlank(apiConfig)) defer.resolve(apiConfig);
       else {
         $http.get(`${API.URL}${API.BASE}${API.DISCOVER}`)
+          .catch(err => defer.reject(err))
           .then((response) => {
             apiConfig = response.data;
             defer.resolve(apiConfig);
@@ -98,22 +122,28 @@
     }
 
     function getEndpoint(name) {
-      return getApiConfig()
+      let defer = $q.defer();
+      getApiConfig()
+        .catch(err => defer.reject(err))
         .then(() => {
-          if (helper.isBlank(name)) throw new Exception.IllegalArgumentException('Parameter name is blank');
-          if (helper.isBlank(apiConfig.endpoints[name])) throw new Exception.IllegalArgumentException(`Endpoint with name '${name}' not found`);
-          return apiConfig.endpoints[name];
+          if (helper.isBlank(name)) defer.reject(new Exception.IllegalArgumentException('Parameter name is blank'));
+          if (helper.isBlank(apiConfig.endpoints[name])) defer.reject(new Exception.IllegalArgumentException(`Endpoint with name '${name}' not found`));
+          defer.resolve(apiConfig.endpoints[name]);
         });
+      return defer.promise;
     }
 
     function getResourceEndpoint(name, operation) {
-      return getApiConfig()
+      let defer = $q.defer();
+      getApiConfig()
+        .catch(err => defer.reject(err))
         .then(() => {
-          if (helper.isBlank(name)) throw new Exception.IllegalArgumentException('Parameter name is blank');
-          if (helper.isBlank(apiConfig.endpoints.resources[name])) throw new Exception.IllegalArgumentException(`Resource '${name}' not found`);
-          if (helper.isBlank(apiConfig.endpoints.resources[name][operation])) throw new Exception.IllegalArgumentException(`Resource '${name}' operation '${operation}' not found`);
-          return apiConfig.endpoints.resources[name][operation];
+          if (helper.isBlank(name)) defer.reject(new Exception.IllegalArgumentException('Parameter name is blank'));
+          if (helper.isBlank(apiConfig.endpoints.resources[name])) defer.reject(new Exception.IllegalArgumentException(`Resource '${name}' not found`));
+          if (helper.isBlank(apiConfig.endpoints.resources[name][operation])) defer.reject(new Exception.IllegalArgumentException(`Resource '${name}' operation '${operation}' not found`));
+          defer.resolve(apiConfig.endpoints.resources[name][operation]);
         });
+      return defer.promise;
     }
 
     function isSecureEndpoint(url, method) {
@@ -121,6 +151,7 @@
       if (url === `${API.URL}${API.BASE}${API.DISCOVER}`) defer.resolve(false);
       else if (url.startsWith('/api') || url.startsWith(`${API.URL}/api`)) {
         getApiConfig()
+          .catch(err => defer.reject(err))
           .then(() => {
             let found = Object.entries(apiConfig.endpoints).some((endpoint) => {
               if (endpoint[0] !== 'resources') {

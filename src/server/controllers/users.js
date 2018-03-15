@@ -5,14 +5,17 @@ const controller = {};
 
 controller.login = (req, res) => {
   userService.login(req.body)
-    .then(tokens => res.status(req.endpoint.httpStatusCodeOK).json(tokens))
-    .catch(err => ApiError.handle(err, req, res));
+    .catch(err => ApiError.handle(err, req, res))
+    .then(tokens => res.status(req.endpoint.httpStatusCodeOK).json(tokens));
 };
 
 controller.refreshToken = (req, res) => {
   userService.refreshToken(req.user, req.refresh)
-    .then(token => res.status(req.endpoint.httpStatusCodeOK).json(token))
-    .catch(err => ApiError.handle(err, req, res));
+    .catch(err => ApiError.handle(err, req, res))
+    .then((token) => {
+      console.log('TOKEN', token);
+      res.status(req.endpoint.httpStatusCodeOK).json(token)
+    });
 };
 
 module.exports = controller;

@@ -38,7 +38,7 @@
       REFRESH_TOKEN: 'RefreshToken',
     })
     .constant('USER_ROLES', {
-      ADMIN: 'admin',
-      USER: 'user',
+      ADMIN: 'ADMIN',
+      USER: 'USER',
     });
 })();

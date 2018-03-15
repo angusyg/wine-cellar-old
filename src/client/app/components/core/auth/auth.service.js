@@ -7,7 +7,8 @@
 
   angular
     .module('frontend.core.auth')
-    .factory('authService', AuthService);
+    .factory('authService', AuthService)
+    .run(['authService', (authService) => authService.stateSecurization()]);
 
   AuthService.$inject = ['$http', 'store', '$q', '$rootScope', '$transitions', 'apiService', 'helper', 'SECURITY', 'AUTH_EVENTS'];
 

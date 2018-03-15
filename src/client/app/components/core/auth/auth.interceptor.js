@@ -21,14 +21,17 @@
     function request(config) {
       let apiService = $injector.get('apiService');
       return apiService.isSecureEndpoint(config.url, config.method)
+        .catch(err => $q.reject(err))
         .then((secure) => {
           if (secure) {
             let authService = $injector.get('authService');
             if (!authService.isLoggedIn()) {
-              $injector.get('$state').go('login');
+              let $rootScope = $injector.get('$rootScope');
+              $rootScope.$broadcast(AUTH_EVENTS.NOT_AUTHENTICATED, config);
               return $q.reject();
             } else {
               return apiService.getApiConfig()
+                .catch(err => $q.reject(err))
                 .then((apiConfig) => {
                   config.headers[apiConfig.accessTokenHeader] = `Bearer ${authService.getToken()}`;
                   config.headers[apiConfig.refreshTokenHeader] = authService.getRefreshToken();
@@ -49,20 +52,20 @@
         if (!refreshRequestLoading) {
           refreshRequestLoading = true;
           return authService.refreshToken()
-            .then(function(response) {
-              refreshRequestLoading = false;
-              err.config.headers.authorization = `Bearer ${authService.getToken()}`;
-              return $injector.get('$http')(err.config)
-                .then(function(response) {
-                  $q.resolve(response);
-                }, function(error) {
-                  $q.reject(error);
+            .catch(err => $q.reject(err))
+            .then((response) => {
+              let apiService = $injector.get('apiService');
+              return apiService.getApiConfig()
+                .catch(err => $q.reject(err))
+                .then((apiConfig) => {
+                  err.config.headers[apiConfig.accessTokenHeader] = `Bearer ${authService.getToken()}`;
+                  return $injector.get('$http')(err.config)
+                    .catch(err => $q.reject(err))
+                    .then(response => $q.resolve(response));
                 });
             })
-            .catch(function(error) {
-              refreshRequestLoading = false;
-              return $q.reject(error);
-            });
+            .catch(err => $q.reject(err))
+            .finally(() => refreshRequestLoading = false);
         }
       } else return $q.reject(err);
     }

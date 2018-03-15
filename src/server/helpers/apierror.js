@@ -1,11 +1,12 @@
 const config = require('../config');
 
 module.exports = class ApiError extends Error {
-  constructor(error) {
+  constructor(error, originalError) {
     super(error.message);
     this.name = this.constructor.name;
     Error.captureStackTrace(this, this.constructor);
     this.error = error;
+    this.originalError = originalError;
   }
 
   send(req, res) {

@@ -4,5 +4,6 @@ module.exports = {
   ],
   rules: {
     'prefer-destructuring': 0,
+    'no-underscore-dangle': 0,
   }
 };

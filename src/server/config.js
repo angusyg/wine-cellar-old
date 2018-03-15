@@ -81,6 +81,7 @@ module.exports = {
         secure: true,
         data: false,
         method: 'GET',
+        httpStatusCodeOK: httpStatus.ok,
         errors: [{
           code: 0,
           message: 'Server error',
