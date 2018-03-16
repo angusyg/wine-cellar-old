@@ -14,7 +14,9 @@
     };
 
     function link(scope, el, attr, ctrl) {
+      const ERROR_BAD_LOGIN_MESSAGE = ''
       let loginInProgress = false;
+      const tooltipTimeout = 3000;
 
       const show = (event, data) => {
         if (!loginInProgress) {
@@ -31,15 +33,40 @@
               };
               vm.error = null;
               vm.login = login;
+              vm.tooltips = {
+                login: {
+                  position: "right",
+                  message: '',
+                  type: '',
+                  show: false
+                },
+                password: {
+                  position: "right",
+                  message: '',
+                  type: '',
+                  show: false
+                }
+              }
 
               function login() {
                 authService.login(vm.user)
                   .then(() => $uibModalInstance.close())
                   .catch((err) => {
-                    if (err.status === 401) vm.error = err.data.code;
+                    if (err.status === 401) showTooltipError('login', )vm.error = err.data.code;
                     else vm.error = 0;
-                    $timeout(() => vm.error = null, 3000);
+                    $timeout(() => vm.error = null, tooltipTimeout);
                   });
+              }
+
+              function showTooltip() {
+                vm.tooltips[input].type = type;
+                vm.tooltips[input].message = message,
+                vm.tooltips[input].show = true
+                $timeout(() => vm.tooltips[input].show = false, tooltipTimeout);
+              }
+
+              function showTooltipError(code, input, message) {
+                if(code === 0) showTooltip('login', 'fe-error', ERROR_BAD_LOGIN_MESSAGE);
               }
             }],
             controllerAs: 'auth',

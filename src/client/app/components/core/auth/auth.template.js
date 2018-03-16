@@ -13,7 +13,7 @@
         <form name="authForm" ng-submit="auth.login()">
           <div class="modal-body" id="modal-body">
             <div class="form-group">
-              <div class="input-group" tooltip-placement="right" uib-tooltip="Login inconnu" tooltip-class="error" tooltip-is-open="auth.error === 1" tooltip-trigger="'none'" ng-class="{'shake': auth.error === 1}">
+              <div class="input-group" tooltip-placement="auth.tooltips.login.position" uib-tooltip="auth.tooltips.login.message" tooltip-class="auth.tooltips.login.type" tooltip-is-open="auth.tooltips.login.show" tooltip-trigger="'none'" ng-class="{'shake': auth.error === 1}">
                 <div class="input-group-prepend">
                   <div class="input-group-text" id="icon-login"><i class="material-icons">person</i></div>
                 </div>
@@ -21,7 +21,7 @@
               </div>
             </div>
             <div class="form-group">
-              <div class="input-group" tooltip-placement="right" uib-tooltip="Mot de passe incorrect" tooltip-class="error" tooltip-is-open="auth.error === 2" tooltip-trigger="'none'" ng-class="{'shake': auth.error === 2}">
+              <div class="input-group" tooltip-placement="right" uib-tooltip="Mot de passe incorrect" tooltip-class="fe-error" tooltip-is-open="auth.error === 2" tooltip-trigger="'none'" ng-class="{'shake': auth.error === 2}">
                 <div class="input-group-prepend">
                   <div class="input-group-text" id="icon-password"><i class="material-icons">lock</i></div>
                 </div>
@@ -29,7 +29,7 @@
               </div>
             </div>
           </div>
-          <div class="modal-footer" tooltip-placement="bottom" uib-tooltip="Erreur lors de la connexion" tooltip-class="error" tooltip-is-open="auth.error === 0" tooltip-trigger="'none'">
+          <div class="modal-footer" tooltip-placement="bottom" uib-tooltip="Erreur lors de la connexion" tooltip-class="fe-error" tooltip-is-open="auth.error === 0" tooltip-trigger="'none'">
             <button class="btn btn-primary" type="submit" ng-disabled="authForm.$invalid">Connexion</button>
           </div>
         </form>`

@@ -22,9 +22,10 @@
   }
 
   // Configuration of providers
-  Config.$inject = ['$urlRouterProvider'];
+  Config.$inject = ['$urlRouterProvider', '$locationProvider'];
 
-  function Config($urlRouterProvider) {
+  function Config($urlRouterProvider, $locationProvider) {
+    $locationProvider.html5Mode(false);
     $urlRouterProvider.otherwise('/');
   }
 }());
