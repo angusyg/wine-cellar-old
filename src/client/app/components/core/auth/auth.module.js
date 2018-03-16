@@ -5,5 +5,5 @@
   'use strict';
 
   angular
-    .module('frontend.core.auth', ['frontend.core.constants', 'frontend.core.api', 'frontend.core.services', 'angular-storage', 'ngMessages', 'ngAnimate']);
+    .module('frontend.core.auth', ['frontend.core.constants', 'frontend.core.api', 'frontend.core.services', 'frontend.core.i18n', 'angular-storage', 'ngAnimate', 'ngMessages', 'ui.bootstrap']);
 })();

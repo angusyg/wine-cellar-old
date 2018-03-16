@@ -12,6 +12,8 @@ const libJs = [
   'node_modules/angular-messages/angular-messages.min.js',
   'node_modules/@uirouter/angularjs/release/angular-ui-router.min.js',
   'node_modules/angular-storage/dist/angular-storage.min.js',
+  'node_modules/angular-translate/dist/angular-translate.min.js',
+  'node_modules/angular-translate-loader-partial/angular-translate-loader-partial.min.js',
   'node_modules/ui-bootstrap4/dist/ui-bootstrap-tpls.js',
 ];
 const libJsToUglify = ['node_modules/angular1-ui-bootstrap4/dist/ui-bootstrap-tpls.js'];

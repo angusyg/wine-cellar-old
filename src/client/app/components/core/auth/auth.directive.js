@@ -15,6 +15,7 @@
 
     function link(scope, el, attr, ctrl) {
       let loginInProgress = false;
+      const tooltipTimeout = 3000;
 
       const show = (event, data) => {
         if (!loginInProgress) {
@@ -31,6 +32,20 @@
               };
               vm.error = null;
               vm.login = login;
+              vm.tooltips = {
+                login: {
+                  position: "right",
+                  message: '',
+                  type: '',
+                  show: false
+                },
+                password: {
+                  position: "right",
+                  message: '',
+                  type: '',
+                  show: false
+                }
+              }
 
               function login() {
                 authService.login(vm.user)
@@ -38,8 +53,19 @@
                   .catch((err) => {
                     if (err.status === 401) vm.error = err.data.code;
                     else vm.error = 0;
-                    $timeout(() => vm.error = null, 3000);
+                    $timeout(() => vm.error = null, tooltipTimeout);
                   });
+              }
+
+              function showTooltip(input, type, message) {
+                vm.tooltips[input].type = type;
+                vm.tooltips[input].message = message,
+                vm.tooltips[input].show = true
+                $timeout(() => vm.tooltips[input].show = false, tooltipTimeout);
+              }
+
+              function showTooltipError(input, message) {
+                showTooltip(input, 'fe-error', message);
               }
             }],
             controllerAs: 'auth',

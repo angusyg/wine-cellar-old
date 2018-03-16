@@ -38,6 +38,8 @@
     "angular-deferred-bootstrap": "^0.1.9",
     "angular-messages": "^1.6.9",
     "angular-storage": "0.0.15",
+    "angular-translate": "^2.17.0",
+    "angular-translate-loader-partial": "^2.17.0",
     "angular1-ui-bootstrap4": "^2.4.22",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
