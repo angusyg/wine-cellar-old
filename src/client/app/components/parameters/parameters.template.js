@@ -13,28 +13,35 @@
         <form name="paramForm">
           <div class="modal-body container">
             <div class="form-row">
-              <div class="form-group col-6">
-                <label for="list">Liste</label>
+            <div class="form-group col-12">
+              <label>Liste</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><img src="/images/check-list.png"></img></div>
+                </div>
                 <select class="form-control form-control-sm" ng-model="param.selected" id="list">
                   <option ng-value="param.addItem" selected>Nouveau</option>
                   <option ng-repeat="item in param.list" ng-value="item"></option>
                 </select>
               </div>
             </div>
+            </div>
             <div class="form-row">
-              <div class="form-group col-6">
+              <div class="form-group col-12">
+                <label>Nom</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <div class="input-group-text"><img src="/images/internet.png"></img></div>
+                    <div class="input-group-text"><img src="/images/tag.png"></img></div>
                   </div>
                   <input name="name" type="text" ng-change="param.dataChange()" class="form-control form-control-sm" id="name" placeholder="Nom" required ng-model="param.selected.name">
                 </div>
               </div>
             </div>
             <div class="form-group">
+              <label>Description</label>
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <div class="input-group-text"><img src="/images/info.png"></img></div>
+                  <div class="input-group-text"><img src="/images/paper.png"></img></div>
                 </div>
                 <textarea ng-model="param.selected.description" ng-change="param.dataChange()" class="form-control form-control-sm" placeholder="Description" rows="16" cols="50">
                 </textarea>

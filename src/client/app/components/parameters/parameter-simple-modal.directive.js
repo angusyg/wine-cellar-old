@@ -10,7 +10,7 @@
   function ParameterSimpleModal($uibModal, $templateCache, resourcesService) {
     return {
       restrict: 'E',
-      template: `<li ng-click="show()">{{name}}</li>`,
+      template: `<a href="#" class="dropdown-item" ng-click="show()">{{name}}</a>`,
       scope: {
         name: '@',
         resource: '@',
@@ -22,11 +22,10 @@
       scope.show = () => {
         $uibModal.open({
           animation: true,
-          ariaDescribedBy: 'modal-body',
           template: $templateCache.get('PARAMETER-SIMPLE-MODAL'),
           controller: ModalController,
           controllerAs: 'param',
-          windowClass: 'modal-dialog-centered',
+          windowClass: 'frontend-app',
           size: 'dialog-centered modal-lg',
           resolve: {
             name: () => scope.name,
@@ -101,10 +100,8 @@
 
       function update() {
         resourcesService.update(vm.selected, resource)
-          .then((modified) => {
-            showTooltip('Modification réussie', success)
-          })
-          .catch((err) => showTooltip(`Erreur lors de la modification`, error));
+          .catch(err => showTooltip(`Erreur lors de la modification`, error))
+          .then(modified => showTooltip('Modification réussie', success));
       }
     }
   }

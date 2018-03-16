@@ -1,4 +1,26 @@
-<p>Hello World</p>
-<ul>
-  <parameter-simple-modal name="Pays" resource="country" />
-</ul>
+<nav class="navbar navbar-expand fixed-top navbar-dark bg-secondary container">
+  <div class="container">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link active" href="#"><img src="/images/wine-bottle-64.png"></a>
+      </li>
+    </ul>
+    <form class="form-inline mx-auto">
+      <input class="form-control form-control-sm" type="search" placeholder="Recherche">
+    </form>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item" uib-dropdown>
+          <a class="nav-link active" href="#" uib-dropdown-toggle><img src="/images/gear.png"></a>
+          <div class="dropdown-menu" uib-dropdown-menu role="menu">
+            <parameter-simple-modal name="Pays" resource="country"></parameter-simple-modal>
+            <parameter-simple-modal name="Format" resource="bottleSize"></parameter-simple-modal>
+            <parameter-simple-modal name="Origine" resource="origin"></parameter-simple-modal>
+            <parameter-simple-modal name="CLassement" resource="classification"></parameter-simple-modal>
+          </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="content container">
+  heller
+</div>

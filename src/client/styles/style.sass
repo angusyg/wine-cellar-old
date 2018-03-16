@@ -1,6 +1,11 @@
-html, body
-  background-color: rgba(140, 169, 171, 0.55)
+html
+  height: 100%
 
+body
+  min-height: 100%
+  background-color: rgba(185, 203, 206, 1)
+
+/******************* Font *******************/
 @font-face
     font-family: 'Material Icons'
     font-style: normal
@@ -22,23 +27,25 @@ html, body
     direction: ltr
     -webkit-font-feature-settings: 'liga'
     -webkit-font-smoothing: antialiased
+/******************* Font *******************/
 
-.modal-header
-  border: 0
-  color: rgba(255, 255 ,255 ,1)
+/******************* Modal ******************/
+.frontend-app
+  .modal-header
+    border: 0
+    color: rgba(255, 255 ,255 ,1)
+    img
+      width: 35px
 
-.modal-content
-  border: 0
-  background-color: rgba(140, 169, 171, 0.55)
-  color: rgba(255, 255, 255, 1)
+  .modal-content
+    border: 0
+    background-color: rgba(70, 78, 78, 1)
+    color: rgba(255, 255, 255, 1)
 
-.modal-footer
-  border: 0
-  padding-top: 0
-
-.login-dialog
-  .modal-header img
-    width: 35px
+  .modal-footer
+    border: 0
+    padding-top: 0
+/******************* Modal ******************/
 
 /************ Form tooltip error ************/
 .tooltip.error
@@ -88,6 +95,7 @@ html, body
   border-bottom-color: rgba(190, 75, 190, 1)
 /************ Form tooltip error ************/
 
+/***************** Animation ****************/
 .shake
   animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both
   transform: translate3d(0, 0, 0)
@@ -103,8 +111,43 @@ html, body
     transform: translate3d(-4px, 0, 0)
   40%, 60%
     transform: translate3d(4px, 0, 0)
+/***************** Animation ****************/
 
-.list-group
-  max-height: 393px
-  overflow-y: auto
-  border-radius: 5px
+/******************* Forms ******************/
+.form-control
+  background-color: rgba(217, 223, 232, 1)
+  border: 0
+
+.input-group-text
+  background-color: transparent
+  border: none
+  padding-top: 0px
+  padding-bottom: 0px
+
+.input-group>.custom-select:not(:first-child), .input-group>.form-control-sm:not(:first-child)
+  border-top-left-radius: .2rem
+  border-bottom-left-radius: .2rem
+
+.input-group .form-control-sm
+  margin-right: 24px
+/******************* Forms ******************/
+
+/****************** Navbar ******************/
+.navbar
+  .form-control
+    width: 300px
+    text-align: center
+
+  .dropdown-item:hover
+    color: rgba(0, 0, 0, 1)
+    background-color: rgba(211, 221, 230, 1)
+
+  .dropdown-menu
+    border: none
+
+  img
+    width: 35px
+/****************** Navbar ******************/
+
+.content
+  padding-top: 80px

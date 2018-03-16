@@ -43,7 +43,7 @@
               }
             }],
             controllerAs: 'auth',
-            windowClass: 'modal-dialog-centered login-dialog',
+            windowClass: 'frontend-app',
             size: 'dialog-centered modal-sm',
             backdrop: 'static',
           });
