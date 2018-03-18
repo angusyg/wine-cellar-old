@@ -10,7 +10,6 @@
     .constant('API', {
       URL: '',
       BASE: '/api',
-      DISCOVER: '/discover'
     })
     .constant('APP', {
       HOME_STATE_NAME: 'app',
@@ -40,5 +39,26 @@
     .constant('USER_ROLES', {
       ADMIN: 'ADMIN',
       USER: 'USER',
+    })
+    .constant('TRANSLATE', {
+      FR: {
+        AUTH_BAD_LOGIN: "Login inconnu",
+        AUTH_BAD_PASSWORD: "Mot de passe incorrect",
+        AUTH_ERROR: "Erreur lors de la connexion",
+      },
+      EN: {
+        AUTH_BAD_LOGIN: "Bad login",
+        AUTH_BAD_PASSWORD: "Bad password",
+        AUTH_ERROR: "An error occured while connection",
+      }
+    })
+    .constant('PARAMETERS', {
+      TOOLTIP_DURATION: 3000,
+    })
+    .constant('ENDPOINTS', {
+      DISCOVER: 'discover',
+      LOGIN: 'login',
+      LOGOUT: 'logout',
+      REFRESH: 'refreshToken',
     });
 })();

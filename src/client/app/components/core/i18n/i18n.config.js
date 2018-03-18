@@ -1,6 +1,6 @@
 /**
  * Frontend client application internationalization module;
- * Config to loader
+ * Translation provider configuration
  */
 (function() {
   'use strict';
@@ -17,5 +17,6 @@
       urlTemplate: '/i18n/{part}/{lang}.json'
     });
     $translateProvider.preferredLanguage('fr');
+    $translateProvider.forceAsyncReload(true);
   }
 })();

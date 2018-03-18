@@ -10,13 +10,9 @@
     .factory('authService', AuthService)
     .run(['authService', (authService) => authService.stateSecurization()]);
 
-  AuthService.$inject = ['$http', 'store', '$q', '$rootScope', '$transitions', 'apiService', 'helper', 'SECURITY', 'AUTH_EVENTS'];
+  AuthService.$inject = ['$http', 'store', '$q', '$rootScope', '$transitions', 'apiService', 'helper', 'SECURITY', 'AUTH_EVENTS', 'ENDPOINTS'];
 
-  function AuthService($http, store, $q, $rootScope, $transitions, apiService, helper, SECURITY, AUTH_EVENTS) {
-    const LOGIN_ENDPOINT = 'login';
-    const LOGOUT_ENDPOINT = 'logout';
-    const REFRESH_ENDPOINT = 'refreshToken';
-
+  function AuthService($http, store, $q, $rootScope, $transitions, apiService, helper, SECURITY, AUTH_EVENTS, ENDPOINTS) {
     return {
       getToken: getToken,
       getRefreshToken: getRefreshToken,
@@ -49,9 +45,9 @@
     }
 
     function login(user) {
-      let cfg = new apiService.ApiCallConfig();
+      let cfg = apiService.getApiCallConfig();
       cfg.addData(user);
-      return apiService.call(LOGIN_ENDPOINT, cfg)
+      return apiService.call(ENDPOINTS.LOGIN, cfg)
         .then((response) => {
           store.set(SECURITY.ACCESS_TOKEN, response.accessToken);
           store.set(SECURITY.REFRESH_TOKEN, response.refreshToken);
@@ -60,7 +56,7 @@
     }
 
     function logout() {
-      return apiService.call(LOGOUT_ENDPOINT)
+      return apiService.call(ENDPOINTS.LOGOUT)
         .then((response) => {
           store.remove(SECURITY.ACCESS_TOKEN);
           store.remove(SECURITY.REFRESH_TOKEN);
@@ -69,7 +65,7 @@
     }
 
     function refreshToken() {
-      return apiService.call(REFRESH_ENDPOINT)
+      return apiService.call(ENDPOINTS.REFRESH)
         .then((response) => {
           store.set(SECURITY.ACCESS_TOKEN, response.accessToken);
           return $q.resolve();

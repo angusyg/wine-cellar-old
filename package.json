@@ -10,7 +10,7 @@
     "start": "supervisor ./src/server/server.js",
     "start:prod": "set NODE_ENV=production&& supervisor ./src/server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"gulp watch\" \"supervisor --watch ./src/server ./src/server/server.js\""
+    "dev": "concurrently \"gulp watch\" \"supervisor --inspect --watch ./src/server ./src/server/server.js\""
   },
   "repository": {
     "type": "git",
@@ -34,8 +34,6 @@
     "@uirouter/angularjs": "^1.0.15",
     "angular": "^1.6.9",
     "angular-animate": "^1.6.9",
-    "angular-aria": "^1.6.9",
-    "angular-deferred-bootstrap": "^0.1.9",
     "angular-messages": "^1.6.9",
     "angular-storage": "0.0.15",
     "angular-translate": "^2.17.0",
@@ -45,17 +43,21 @@
     "body-parser": "^1.18.2",
     "bootstrap": "^4.0.0",
     "camo": "^0.12.3",
+    "compression": "^1.7.2",
     "debug": "^3.1.0",
     "express": "^4.16.2",
+    "express-minify": "^1.0.0",
     "jquery": "^3.3.1",
     "jsonwebtoken": "^8.2.0",
     "supervisor": "^0.12.0",
-    "ui-bootstrap4": "^3.0.2",
+    "uglify-es": "^3.3.9",
+    "ui-bootstrap4": "^3.0.3",
     "uuid": "^3.2.1",
     "winston": "^2.4.0",
     "winston-daily-rotate-file": "^1.7.2"
   },
   "devDependencies": {
+    "angular-jsdoc": "git+https://github.com/Monsido/angular-jsdoc.git",
     "concurrently": "^3.5.1",
     "del": "^3.0.0",
     "eslint": "^4.17.0",
@@ -63,6 +65,7 @@
     "eslint-plugin-angular": "^3.2.0",
     "eslint-plugin-import": "^2.8.0",
     "gulp": "^3.9.1",
+    "gulp-clean-css": "^3.9.3",
     "gulp-concat": "^2.6.1",
     "gulp-eslint": "^4.0.2",
     "gulp-grunt": "^0.5.5",
@@ -73,6 +76,7 @@
     "gulp-uglify": "^3.0.0",
     "gulp-uglify-es": "^1.0.0",
     "gulp-util": "^3.0.8",
+    "jsdoc": "^3.5.5",
     "pump": "^3.0.0"
   }
 }

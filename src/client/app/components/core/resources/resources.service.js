@@ -28,7 +28,7 @@
       else if (helper.isBlank(item)) defer.reject(new Exception.IllegalArgumentException(`Parameter is blank`));
       else if (!(item instanceof Object)) defer.reject(new Exception.IllegalArgumentException(`Parameter is not an Object`));
       else {
-        let cfg = new apiService.ApiCallConfig();
+        let cfg = apiService.getApiCallConfig();
         cfg.addData(item);
         apiService.callResource(resource, ADD_OPERATION, cfg)
           .then((response) => defer.resolve(response))
@@ -43,7 +43,7 @@
       else if (helper.isBlank(id)) defer.reject(new Exception.IllegalArgumentException(`Parameter is blank`));
       else if (!(country instanceof String)) defer.reject(new Exception.IllegalArgumentException(`Parameter is not a String`));
       else {
-        let cfg = new apiService.ApiCallConfig();
+        let cfg = apiService.getApiCallConfig();
         cfg.addParameter('id', id);
         apiService.callResource(resource, GET_OPERATION, cfg)
           .then((response) => defer.resolve(response))
@@ -73,7 +73,7 @@
         else id = item._id;
       } else if (!(item instanceof String)) defer.reject(new Exception.IllegalArgumentException(`Parameter is not a String`));
       else {
-        let cfg = new apiService.ApiCallConfig();
+        let cfg = apiService.getApiCallConfig();
         cfg.addParameter('id', id);
         apiService.callResource(resource, REMOVE_OPERATION, cfg)
           .then((response) => defer.resolve(response))
@@ -88,7 +88,7 @@
       else if (helper.isBlank(item)) defer.reject(new Exception.IllegalArgumentException(`Parameter is blank`));
       else if (!(item instanceof Object)) defer.reject(new Exception.IllegalArgumentException(`Parameter is not an Object`));
       else {
-        let cfg = new apiService.ApiCallConfig();
+        let cfg = apiService.getApiCallConfig();
         cfg.addParameter('id', id);
         cfg.addData(item);
         apiService.callResource(resource, UPDATE_OPERATION, cfg)

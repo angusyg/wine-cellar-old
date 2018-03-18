@@ -17,7 +17,6 @@ const libJs = [
   'node_modules/ui-bootstrap4/dist/ui-bootstrap-tpls.js',
 ];
 const libJsToUglify = ['node_modules/angular1-ui-bootstrap4/dist/ui-bootstrap-tpls.js'];
-const libCss = ['node_modules/bootstrap/dist/css/bootstrap.min.css'];
 const sourceJs = [
   'src/client/app/components/core/**/*.module.js',
   'src/client/app/app.module.js',
@@ -96,19 +95,13 @@ gulp.task('copy-js-lib', ['clean-js'], () => {
   ], logError);
 });
 
-// expose css lib in public
-gulp.task('copy-css-lib', ['clean-css'], () => {
-  pump([
-    gulp.src(libCss),
-    gulp.dest(destinationCss),
-  ], logError);
-});
-
 gulp.task('sass', () => {
   pump([
     gulp.src(sourceCss),
     plugins.sass(),
+    plugins.cleanCss(),
     gulp.dest(destinationCss),
+    plugins.livereload(),
   ], logError);
 });
 
@@ -119,14 +112,13 @@ gulp.task('uglify', () => {
     plugins.concat(finalJs),
     gulp.dest(destinationJs),
     uglify({
-      mangle: {
-        toplevel: true,
-      },
+      mangle: false
     }),
     plugins.rename({
       suffix: '.min',
     }),
     gulp.dest(destinationJs),
+    plugins.livereload(),
   ], logError);
 });
 
@@ -138,4 +130,4 @@ gulp.task('watch', () => {
 });
 
 // default task (production)
-gulp.task('default', ['copy-css-lib', 'copy-js-lib', 'uglify', 'clean-temp-js']);
+gulp.task('default', ['copy-js-lib', 'sass', 'uglify', 'clean-temp-js']);

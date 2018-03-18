@@ -9,6 +9,5 @@
   // Configuration of providers
   Config.$inject = [];
 
-  function Config() {
-  }
+  function Config() {}
 }());

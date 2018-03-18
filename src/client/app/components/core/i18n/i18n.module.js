@@ -1,6 +1,9 @@
+/**
+ * Frontend client application internationalization module;
+ */
 (function() {
-    'use strict';
+  'use strict';
 
-    angular
-        .module('frontend.core.i18n', ['pascalprecht.translate']);
+  angular
+    .module('frontend.core.i18n', ['pascalprecht.translate']);
 })();

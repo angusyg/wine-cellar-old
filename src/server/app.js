@@ -1,6 +1,9 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const compression = require('compression');
+const minify = require('express-minify');
+const uglifyEs = require('uglify-es')
 const appMiddleware = require('./helpers/middlewares');
 const loggerRoute = require('./routes/logger');
 const apiRoute = require('./routes/api');
@@ -19,6 +22,11 @@ app.use(bodyParser.urlencoded({
 app.use(appMiddleware.generateRequestUUID);
 
 // Static files
+app.use(compression());
+app.use((req, res, next) => {
+  if (/js\/client\.js/.test(req.url) && process.env.NODE_ENV === 'production') req.url = '/js/client.min.js';
+  next();
+});
 app.use(express.static(path.join(__dirname, '..', 'client', 'public')));
 
 // map modules routes

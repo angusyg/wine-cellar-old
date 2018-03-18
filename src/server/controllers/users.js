@@ -12,10 +12,7 @@ controller.login = (req, res) => {
 controller.refreshToken = (req, res) => {
   userService.refreshToken(req.user, req.refresh)
     .catch(err => ApiError.handle(err, req, res))
-    .then((token) => {
-      console.log('TOKEN', token);
-      res.status(req.endpoint.httpStatusCodeOK).json(token)
-    });
+    .then(token => res.status(req.endpoint.httpStatusCodeOK).json(token));
 };
 
 module.exports = controller;

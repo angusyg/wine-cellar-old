@@ -5,9 +5,10 @@ const logger = require('./helpers/logger').server;
 const config = require('./config');
 
 /**
- * Check if port or named pipe
- * @param  {[type]} val port value
- * @return {[type]}     normalized server port
+ * Check if port is number or named pipe
+ *
+ * @param  {Object} val - Value to inspect
+ * @return {Object}       normalized server port
  */
 function normalizePort(val) {
   const port = parseInt(val, 10);
@@ -18,12 +19,13 @@ function normalizePort(val) {
   return false;
 }
 
-const port = normalizePort(config.api.server.port, 10);
+const port = normalizePort(config.api.server.port);
 const server = http.createServer(app); // http server
 
 /**
  * Error handler on server startup
- * @param  {[type]} error startup errors
+ *
+ * @param  {Object} error - Startup error
  */
 function onError(error) {
   if (error.syscall !== 'listen') throw error;

@@ -1,0 +1,16 @@
+{
+    "source": {
+        "include": ["src/client/app"],
+        "exclude": ["src/client/public", "src/client/app/components/core"],
+        "includePattern": ".+\\.js(doc|x)?$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "plugins": [
+      "node_modules/jsdoc/plugins/markdown",
+      "node_modules/angular-jsdoc/common/plugins/ngdoc"
+    ],
+    "templates": {
+      "cleverLinks": true,
+      "monospaceLinks": true
+    }
+}
